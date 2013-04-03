@@ -1,0 +1,26 @@
+{
+  "name": "node-jdbc",
+  "version": "0.0.1",
+  "description": "Node Module wrapper for querying a DB2/400 based system",
+  "main": "index.js",
+  "dependencies": {
+    "java": "~0.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CraZySacX/node-db2-400.git"
+  },
+  "keywords": [
+    "node",
+    "db2",
+    "400"
+  ],
+  "author": "Jason Ozias",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "c635bb37fc77a9bf1508aa68cca9e542c4beb975"
+}
