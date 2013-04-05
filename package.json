@@ -1,6 +1,6 @@
 {
   "name": "jdbc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
@@ -17,8 +17,8 @@
     "url": "git://github.com/CraZySacX/node-jdbc.git"
   },
   "directories": {
-    "doc" : ".",
-    "lib" : "lib"
+    "doc": ".",
+    "lib": "lib"
   },
   "keywords": [
     "node",
