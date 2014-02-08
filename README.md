@@ -6,6 +6,8 @@ JDBC Wrapper for node.js
 Initialize
 ----------
 ```javascript
+var jdbc = require('jdbc');
+
 var config = {
     libpath: __dirname + 'path/to/jdbc.jar',
     drivername: 'com.java.driverclass',
