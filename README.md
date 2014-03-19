@@ -15,7 +15,7 @@ var config = {
 };
 
 jdbc.initialize(config);
-jdbc.on("init", function(res, err) {
+jdbc.on("init", function(err, res) {
   if (err) {
     console.log(err);
   }
