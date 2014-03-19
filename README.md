@@ -9,27 +9,38 @@ Initialize
 var jdbc = require('jdbc');
 
 var config = {
-    libpath: __dirname + 'path/to/jdbc.jar',
-    drivername: 'com.java.driverclass',
-    url: 'url/to/database'
+  libpath: __dirname + 'path/to/jdbc.jar',
+  drivername: 'com.java.driverclass',
+  url: 'url/to/database'
 };
 
 jdbc.initialize(config);
 jdbc.on("init", function(res, err) {
-    if (err) {
-        console.log(err);
-    }
+  if (err) {
+    console.log(err);
+  }
 });
 ```
 
-Open Connection and Execute
----------------------------
+Open Connection, Execute Queries, Close
+---------------------------------------
 ```javascript
+var queryHandler = function(err, results) {
+  if (err) {
+    console.log(err);
+  } else if (results) {
+    console.log(results);
+  }
+};
+
 jdbc.open();
-jdbc.on("open", function(conn, err) {
-	jdbc.execute("SELECT * FROM table");
-    jdbc.on("execute", function(err, results) {
-        console.log(results);
-    });
+jdbc.on("open", function(err, conn) {
+  if (conn) {
+    jdbc.on("executeQuery", queryHandler);
+    jdbc.executeQuery("SELECT * FROM table");
+    jdbc.executeQuery("SELECT * FROM anotherTable");
+  }
 });
+
+jdbc.close();
 ```
