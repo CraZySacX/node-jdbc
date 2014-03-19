@@ -13,16 +13,18 @@ module.exports = {
     callback();
   },
   testinit: function(test) {  
-    jdbcConn.on('init', function(drivername) {
+    jdbcConn.on('init', function(err, drivername) {
       test.expect(1);
+      test.equal(null, err)
       test.equal(drivername, 'org.hsqldb.jdbc.JDBCDriver');
       test.done();
     });
     jdbcConn.initialize(config);   
   },
   testopen: function(test) {
-    jdbcConn.on('open', function(conn) {
+    jdbcConn.on('open', function(err, conn) {
       test.expect(1);
+      test.equal(null, err);
       test.ok(conn);
       test.done();
     });
