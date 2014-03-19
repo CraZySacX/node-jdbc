@@ -7,6 +7,10 @@ Latest Version
 --------------
 0.0.5
 
+## Status
+[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.png)](https://travis-ci.org/CraZySacX/node-jdbc)
+[![endorse](https://api.coderwall.com/crazysacx/endorsecount.png)](https://coderwall.com/crazysacx)
+
 Initialize
 ----------
 ```javascript
