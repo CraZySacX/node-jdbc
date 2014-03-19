@@ -14,7 +14,7 @@ module.exports = {
   },
   testinit: function(test) {  
     jdbcConn.on('init', function(err, drivername) {
-      test.expect(1);
+      test.expect(2);
       test.equal(null, err)
       test.equal(drivername, 'org.hsqldb.jdbc.JDBCDriver');
       test.done();
@@ -23,7 +23,7 @@ module.exports = {
   },
   testopen: function(test) {
     jdbcConn.on('open', function(err, conn) {
-      test.expect(1);
+      test.expect(2);
       test.equal(null, err);
       test.ok(conn);
       test.done();
