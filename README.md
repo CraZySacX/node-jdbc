@@ -3,6 +3,10 @@ node-jdbc
 
 JDBC Wrapper for node.js
 
+Latest Version
+--------------
+0.0.5
+
 Initialize
 ----------
 ```javascript
