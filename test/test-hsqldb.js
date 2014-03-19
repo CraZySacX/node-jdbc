@@ -23,7 +23,8 @@ module.exports['hsqldb'] = nodeunit.testCase({
     hsqldbConn.open();
   },
   "test close": function(test) {
-    hsqldbConn.on('close', function() {
+    hsqldbConn.on('close', function(status) {
+      test.equal('closed',status);
       test.done();
     });
     hsqldbConn.close();
