@@ -19,7 +19,11 @@ var jdbc = require('jdbc');
 var config = {
   libpath: __dirname + 'path/to/jdbc.jar',
   drivername: 'com.java.driverclass',
-  url: 'url/to/database'
+  url: 'url/to/database',
+
+  //OPTIONAL AS NEEDED:
+  user: 'username',
+  password: 'password
 };
 
 jdbc.initialize(config);
