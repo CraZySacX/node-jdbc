@@ -46,9 +46,20 @@ jdbc.on("open", function(err, conn) {
   if (conn) {
     jdbc.on("executeQuery", queryHandler);
     jdbc.executeQuery("SELECT * FROM table");
-    jdbc.executeQuery("SELECT * FROM anotherTable");
+
+    jdbc.executeUpdate("INSERT INTO table VALUES (value)");
+    jdbc.executeUpdate("UPDATE table SET column = value");
+    jdbc.executeUpdate("DELETE FROM table WHERE column = value");
   }
 });
 
 jdbc.close();
 ```
+
+executeQuery() vs executeUpdate()
+---------------------------------
+As in standard JDBC:
+
+executeQuery() returns a result set (rset) and is therefore suited for SELECT commands.
+
+executeUpdate() returns the number of rows modified, and is suited for INSERT, UPDATE, DELETE commands.
