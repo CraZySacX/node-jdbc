@@ -5,7 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.5
+0.0.6
 
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.png)](https://travis-ci.org/CraZySacX/node-jdbc)
