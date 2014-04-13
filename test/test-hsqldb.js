@@ -12,7 +12,7 @@ module.exports = {
     callback();
   },
   testinit: function(test) {  
-    jdbcConn.initialize(config, function(err) {
+    jdbcConn.initialize(config, function(err, drivername) {
       test.expect(2);
       test.equal(null, err)
       test.equal(drivername, 'org.hsqldb.jdbc.JDBCDriver');
