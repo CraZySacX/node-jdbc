@@ -22,8 +22,7 @@ var config = {
   url: 'url/to/database'
 };
 
-jdbc.initialize(config);
-jdbc.on("init", function(err, res) {
+jdbc.initialize(config, function(err, res) {
   if (err) {
     console.log(err);
   }
@@ -33,7 +32,7 @@ jdbc.on("init", function(err, res) {
 Open Connection, Execute Queries, Close
 ---------------------------------------
 ```javascript
-var queryHandler = function(err, results) {
+var genericQueryHandler = function(err, results) {
   if (err) {
     console.log(err);
   } else if (results) {
@@ -41,25 +40,48 @@ var queryHandler = function(err, results) {
   }
 };
 
-jdbc.open();
-jdbc.on("open", function(err, conn) {
+jdbc.open(function(err, conn) {
   if (conn) {
-    jdbc.on("executeQuery", queryHandler);
-    jdbc.executeQuery("SELECT * FROM table");
+    // SELECT statements are called with executeQuery
+    jdbc.executeQuery("SELECT * FROM table", genericQueryHandler);
 
-    jdbc.executeUpdate("INSERT INTO table VALUES (value)");
-    jdbc.executeUpdate("UPDATE table SET column = value");
-    jdbc.executeUpdate("DELETE FROM table WHERE column = value");
+    // Table modifying statements (UPDATE/INSERT/DELETE/etc) are called with executeUpdate
+    jdbc.executeUpdate("UPDATE table SET column = value", genericQueryHandler);
+
+    // Use non generic callbacks to handle specific SQL queries individually, and to nest queries
+    jdbc.executeUpdate("INSERT INTO table VALUES (value)", function(err, results) {
+      
+      if(results > some_arbitrary_value) {
+        jdbc.executeQuery("SELECT * FROM table where column = value", genericQueryHandler);
+      }
+    
+    });
   }
 });
 
 jdbc.close();
 ```
 
-executeQuery() vs executeUpdate()
+API
 ---------------------------------
-As in standard JDBC:
 
-executeQuery() returns a result set (rset) and is therefore suited for SELECT commands.
+### initialize(config, callback)
+ - see above example for config object
+ - callback(error)
 
-executeUpdate() returns the number of rows modified, and is suited for INSERT, UPDATE, DELETE commands.
+### open(config, callback)
+ - opens a new connection
+ - callback(error)
+
+### close(config, callback)
+ - closes any existing connection
+ - callback(error)
+
+### executeQuery(sql, callback)
+ - SELECT commands.
+ - callback(error, rset)
+
+### executeUpdate(sql, callback) 
+ - table modifying commands (INSERT, UPDATE, DELETE, etc).
+ - callback(error, num_rows)
+   - where @num_rows is the number of rows modified
