@@ -48,7 +48,7 @@ jdbc.open(function(err, conn) {
     // Table modifying statements (UPDATE/INSERT/DELETE/etc) are called with executeUpdate
     jdbc.executeUpdate("UPDATE table SET column = value", genericQueryHandler);
 
-    // Use non generic callbacks to handle specific SQL queries individually, and to nest queries
+    // Use non-generic callbacks to handle queries individually and/or to nest queries
     jdbc.executeUpdate("INSERT INTO table VALUES (value)", function(err, results) {
       
       if(results > some_arbitrary_value) {
