@@ -7,6 +7,8 @@ Latest Version
 --------------
 0.0.7
 
+Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
+
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.png)](https://travis-ci.org/CraZySacX/node-jdbc)
 [![endorse](https://api.coderwall.com/crazysacx/endorsecount.png)](https://coderwall.com/crazysacx)
