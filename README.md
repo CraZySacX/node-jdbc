@@ -96,8 +96,9 @@ API
  - Used to execute SQL stored procedures (eg PL/SQL procedures)
  - http://docs.oracle.com/javase/7/docs/api/java/sql/CallableStatement.html
  - callback(error)
+ - NOTES: Currently sets params as strings only (ie. setString())
 
- - Mimics the following Java jdbc code:
+Java:
 ```java
 CallableStatement callstmt = conn.prepareCall("{ call pkg.proc( ?,? ) }");
 
@@ -107,9 +108,8 @@ callstmt.setString(2, param2);
 callstmt.execute();
 ```
 
- - jdbc version:
+Node:
 ```javascript
-// Callable Statements (ex. PL/SQL procedures)
 var params = [param1, param2];
 jdbc.callProcedure("pkg.proc", params, genericQueryHandler);
 ```
