@@ -61,7 +61,13 @@ jdbc.open(function(err, conn) {
   }
 });
 
-jdbc.close();
+jdbc.close(function(err) }
+  if(err) {
+    console.log(err);
+  } else {
+    console.log("Connection closed successfully!");
+  }
+});
 ```
 
 API
