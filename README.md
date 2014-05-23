@@ -77,11 +77,11 @@ API
  - see above example for config object
  - callback(error)
 
-### open(config, callback)
+### open(callback)
  - opens a new connection
  - callback(error)
 
-### close(config, callback)
+### close(callback)
  - closes any existing connection
  - callback(error)
 
