@@ -52,12 +52,16 @@ jdbc.open(function(err, conn) {
 
     // Use non-generic callbacks to handle queries individually and/or to nest queries
     jdbc.executeUpdate("INSERT INTO table VALUES (value)", function(err, results) {
-      
+
       if(results > some_arbitrary_value) {
         jdbc.executeQuery("SELECT * FROM table where column = value", genericQueryHandler);
       }
-    
     });
+
+    // Callable Statements (ex. PL/SQL procedures)
+    var params = [param1, param2 ... ];
+    jdbc.callProcedure("procName", params, genericQueryHandler);
+
   }
 });
 
@@ -89,7 +93,29 @@ API
  - SELECT commands.
  - callback(error, rset)
 
-### executeUpdate(sql, callback) 
+### executeUpdate(sql, callback)
  - table modifying commands (INSERT, UPDATE, DELETE, etc).
  - callback(error, num_rows)
    - where @num_rows is the number of rows modified
+
+### callProcedure(proc_name, params, callback)
+ - Used to execute SQL stored procedures (eg PL/SQL procedures)
+ - http://docs.oracle.com/javase/7/docs/api/java/sql/CallableStatement.html
+ - callback(error)
+ - NOTES: Currently sets params as strings only (ie. setString())
+
+Java:
+```java
+CallableStatement callstmt = conn.prepareCall("{ call pkg.proc( ?,? ) }");
+
+callstmt.setString(1, param1);
+callstmt.setString(2, param2);
+
+callstmt.execute();
+```
+
+Node:
+```javascript
+var params = [param1, param2];
+jdbc.callProcedure("pkg.proc", params, genericQueryHandler);
+```
