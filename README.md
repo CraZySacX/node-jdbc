@@ -5,7 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.7
+0.0.8
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
