@@ -1,5 +1,5 @@
 var nodeunit = require('nodeunit');
-var jdbcConn = require('../lib/jdbc.js');
+var jdbcConn = new ( require('../lib/jdbc.js') );
 
 var config = {
   libpath: './drivers/hsqldb.jar',

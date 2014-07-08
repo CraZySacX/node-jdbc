@@ -16,7 +16,7 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 Initialize
 ----------
 ```javascript
-var jdbc = require('jdbc');
+var jdbc = new ( require('jdbc') );
 
 var config = {
   libpath: __dirname + 'path/to/jdbc.jar',
