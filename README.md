@@ -40,6 +40,15 @@ var genericQueryHandler = function(err, results) {
   } else if (results) {
     console.log(results);
   }
+  
+  jdbc.close(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("Connection closed successfully!");
+    }
+  });
+
 };
 
 jdbc.open(function(err, conn) {
@@ -61,13 +70,7 @@ jdbc.open(function(err, conn) {
   }
 });
 
-jdbc.close(function(err) }
-  if(err) {
-    console.log(err);
-  } else {
-    console.log("Connection closed successfully!");
-  }
-});
+
 ```
 
 API
