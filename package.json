@@ -29,7 +29,7 @@
     "wrapper"
   ],
   "engines": {
-    "node": ">=0.9"
+    "node": ">=0.10"
   },
   "author": "Jason Ozias <jason.g.ozias@gmail.com>",
   "license": "MIT",
