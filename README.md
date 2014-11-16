@@ -7,7 +7,7 @@ Latest Version
 --------------
 0.0.9
 
-Note with this release, the minimum version of node.js has been increads to v0.10.  If you need
+Note with this release, the minimum version of node.js has been increased to v0.10.  If you need
 to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
