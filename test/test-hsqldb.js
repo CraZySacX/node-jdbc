@@ -1,10 +1,18 @@
 var nodeunit = require('nodeunit');
 var jdbcConn = new ( require('../lib/jdbc.js') );
 
-var config = {
+var configWithUserInUrl = {
   libpath: './drivers/hsqldb.jar',
   drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb;user=SA;password='
+};
+
+var configWithUserInConfig = {
+  libpath: './drivers/hsqldb.jar',
+  drivername: 'org.hsqldb.jdbc.JDBCDriver',
+  url: 'jdbc:hsqldb:hsql://localhost/xdb',
+  user : 'SA',
+  password: ''
 };
 
 module.exports = {
@@ -12,7 +20,7 @@ module.exports = {
     callback();
   },
   testinit: function(test) {  
-    jdbcConn.initialize(config, function(err, drivername) {
+    jdbcConn.initialize(configWithUserInUrl, function(err, drivername) {
       test.expect(2);
       test.equal(null, err)
       test.equal(drivername, 'org.hsqldb.jdbc.JDBCDriver');
