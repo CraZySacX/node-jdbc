@@ -7,7 +7,9 @@ Latest Version
 --------------
 0.0.10
 
-Note with this release, the minimum version of node.js has been increased to v0.10.  If you need
+Release 0.0.10 pins the node-java version at 0.4.2 until an issue with 0.4.3 running on Windows 7 has been addressed.
+
+As of release 0.0.9, the minimum version of node.js has been increased to v0.10.  If you need
 to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
