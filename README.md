@@ -5,7 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.9
+0.0.10
 
 Note with this release, the minimum version of node.js has been increased to v0.10.  If you need
 to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
@@ -24,7 +24,10 @@ var jdbc = new ( require('jdbc') );
 var config = {
   libpath: __dirname + 'path/to/jdbc.jar',
   drivername: 'com.java.driverclass',
-  url: 'url/to/database'
+  url: 'url/to/database',
+  // optionally  
+  user: 'user',
+  password: 'secret',
 };
 
 jdbc.initialize(config, function(err, res) {
