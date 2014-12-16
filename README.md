@@ -5,7 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.10
+0.0.11
 
 Release 0.0.10 pins the node-java version at 0.4.2 until an issue with 0.4.3 running on Windows 7 has been addressed.
 
