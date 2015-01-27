@@ -99,5 +99,4 @@ API
 
 ### executeUpdate(sql, callback) 
  - table modifying commands (INSERT, UPDATE, DELETE, etc).
- - callback(error, num_rows)
- - where @num_rows is the number of rows modified
+ - callback(error, num_rows) where @num_rows is the number of rows modified
