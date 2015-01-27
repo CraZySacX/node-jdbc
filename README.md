@@ -5,9 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.11
-
-Release 0.0.10 pins the node-java version at 0.4.2 until an issue with 0.4.3 running on Windows 7 has been addressed.
+0.0.12
 
 As of release 0.0.9, the minimum version of node.js has been increased to v0.10.  If you need
 to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
