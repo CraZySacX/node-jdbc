@@ -22,6 +22,7 @@ var jdbc = new ( require('jdbc') );
 
 var config = {
   libpath: __dirname + 'path/to/jdbc.jar',
+  libs: [__dirname + 'path/to/other/jars.jar'],
   drivername: 'com.java.driverclass',
   url: 'url/to/database',
   // optionally  
