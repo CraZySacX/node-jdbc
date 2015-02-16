@@ -5,7 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.12
+0.0.13
 
 Support for adding multiple JARs to the classpath has been added.  Use the libs array as shown in
 the initialize section below.  As of release 0.0.9, the minimum version of node.js has been increased 
@@ -14,7 +14,7 @@ to v0.10.  If you need to use this with node.js v0.8, use version 0.0.8 of node-
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
 ## Status
-[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
+[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=0.0.13)](https://travis-ci.org/CraZySacX/node-jdbc)
 
 Initialize
 ----------
