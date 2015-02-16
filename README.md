@@ -7,8 +7,9 @@ Latest Version
 --------------
 0.0.12
 
-As of release 0.0.9, the minimum version of node.js has been increased to v0.10.  If you need
-to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
+Support for adding multiple JARs to the classpath has been added.  Use the libs array as shown in
+the initialize section below.  As of release 0.0.9, the minimum version of node.js has been increased 
+to v0.10.  If you need to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
