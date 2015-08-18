@@ -26,11 +26,18 @@ var configWithPropertiesInConfig = {
   ]
 };
 
+var isEmpty = function(object) {
+  for(var i in object) {
+    return true;
+  }
+  return false;
+};
+
 module.exports = {
   tearDown: function(callback) {
     callback();
   },
-  testinit: function(test) {  
+  testinit: function(test) {
     jdbcConn.initialize(configWithUserInUrl, function(err, drivername) {
       test.expect(2);
       test.equal(null, err);
@@ -63,7 +70,7 @@ module.exports = {
     });
   },
   testcreatetable: function(test) {
-    jdbcConn.executeQuery("CREATE TABLE blah (id int, name varchar(10));", function(err, result) {
+    jdbcConn.executeQuery("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -71,7 +78,7 @@ module.exports = {
     });
   },
   testcreatetablewithproperties: function(test) {
-    jdbcConnWithProps.executeQuery("CREATE TABLE blahP (id int, name varchar(10));", function(err, result) {
+    jdbcConnWithProps.executeQuery("CREATE TABLE blahP (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -79,7 +86,7 @@ module.exports = {
     });
   },
   testeqinsert: function(test) {
-    jdbcConn.executeQuery("INSERT INTO blah VALUES (1, 'Jason');", function(err, result) {
+    jdbcConn.executeQuery("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -87,7 +94,7 @@ module.exports = {
     });
   },
   testeqinsertwithproperties: function(test) {
-    jdbcConnWithProps.executeQuery("INSERT INTO blahP VALUES (1, 'Jason');", function(err, result) {
+    jdbcConnWithProps.executeQuery("INSERT INTO blahP VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -95,7 +102,7 @@ module.exports = {
     });
   },
   testeuinsert: function(test) {
-    jdbcConn.executeUpdate("INSERT INTO blah VALUES (3, 'Temp');", function(err, result) {
+    jdbcConn.executeUpdate("INSERT INTO blah VALUES (3, 'Temp', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result && result == 1);
@@ -103,7 +110,7 @@ module.exports = {
     });
   },
   testeuinsertwithproperties: function(test) {
-    jdbcConnWithProps.executeUpdate("INSERT INTO blahP VALUES (3, 'Temp');", function(err, result) {
+    jdbcConnWithProps.executeUpdate("INSERT INTO blahP VALUES (3, 'Temp', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result && result == 1);
@@ -144,9 +151,13 @@ module.exports = {
   },
   testselect: function(test) {
     jdbcConn.executeQuery("SELECT * FROM blah;", function(err, result) {
-      test.expect(2);
+      test.expect(6);
       test.equal(null, err);
       test.ok(result && result.length == 2);
+      test.equal(result[0].NAME, 'Jason');
+      test.ok(result[0].DATE);
+      test.ok(result[0].TIME);
+      test.ok(result[0].TIMESTAMP);
       test.done();
     });
   },
