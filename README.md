@@ -5,7 +5,7 @@ JDBC Wrapper for node.js
 
 Latest Version
 --------------
-0.0.14
+0.0.15
 
 Support for adding multiple JARs to the classpath has been added.  Use the libs array as shown in
 the initialize section below.  As of release 0.0.9, the minimum version of node.js has been increased 
