@@ -12,8 +12,9 @@
     "nodeunit": "~0.9.0"
   },
   "scripts": {
-    "pretest": "java -cp drivers\/hsqldb.jar org.hsqldb.server.Server --database.0 file:mydb --dbname.0 xdb >test\/hsqldb.log 2>&1 &",
-    "test": "nodeunit test"
+    "pretest": "bin\/startdbs",
+    "test": "nodeunit test",
+    "posttest": "bin\/stopdbs"
   },
   "repository": {
     "type": "git",
