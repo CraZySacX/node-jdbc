@@ -16,17 +16,64 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
 
+
+## Usage
+Check out [test-hsqldb.js](https://github.com/CraZySacX/node-jdbc/blob/master/test/test-hsqldb.js) for a usage example.
+
 Initialize
 ----------
 ```javascript
 var jdbc = new ( require('jdbc') );
 
-var config = {
+// There are 3 methods to supply user/password combinations
+// In the URL
+var configWithUserInUrl = {
+  // Required
   libpath: __dirname + 'path/to/jdbc.jar',
+  drivername: 'com.java.driverclass',
+  // Check your driver docs for supplying the user/password in the URL.
+  url: 'url/to/database;user=SA;password=',
+  
+  // Optional
   libs: [__dirname + 'path/to/other/jars.jar'],
+};
+
+// As key/value pairs.
+var configWithUserInConfig = {
+  // Required
+  libpath: __dirname + 'path/to/jdbc.jar',
   drivername: 'com.java.driverclass',
   url: 'url/to/database',
-  // optionally  
+  
+  // Optional
+  libs: [__dirname + 'path/to/other/jars.jar'],
+  user : 'SA',
+  password: ''
+};
+
+// As an array.
+var configWithPropertiesInConfig = {
+  // Required
+  libpath: __dirname + 'path/to/jdbc.jar',
+  drivername: 'com.java.driverclass',
+  url: 'url/to/database',
+  
+  // Optional
+  libs: [__dirname + 'path/to/other/jars.jar'],
+  properties: [
+    ['user', 'SA'],
+    ['password','']
+  ]
+};
+
+var config = {
+  // Required
+  libpath: __dirname + 'path/to/jdbc.jar',
+  drivername: 'com.java.driverclass',
+  url: 'url/to/database',
+  
+  // Optional
+  libs: [__dirname + 'path/to/other/jars.jar'],
   user: 'user',
   password: 'secret',
 };
