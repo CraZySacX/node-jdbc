@@ -13,7 +13,8 @@ var config = {
   drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
   user : 'SA',
-  password: ''
+  password: '',
+  fetchsize: 100
 };
 
 module.exports = {
