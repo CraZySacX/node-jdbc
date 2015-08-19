@@ -3,10 +3,12 @@ var nodeunit = require('nodeunit');
 var jdbcConn = new ( require('../lib/jdbc.js') ),
     derbyConn = new( require('../lib/jdbc.js') );
 
-jinst.setupClasspath(['./drivers/hsqldb.jar',
-                      './drivers/derby.jar',
-                      './drivers/derbyclient.jar',
-                      './drivers/derbytools.jar']);
+if (!jinst.isJvmCreated()) {
+  jinst.setupClasspath(['./drivers/hsqldb.jar',
+                        './drivers/derby.jar',
+                        './drivers/derbyclient.jar',
+                        './drivers/derbytools.jar']);
+}
 
 var configWithUserInUrl = {
   drivername: 'org.hsqldb.jdbc.JDBCDriver',

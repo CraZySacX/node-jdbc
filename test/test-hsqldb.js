@@ -2,10 +2,12 @@ var jinst = require('../lib/jinst.js');
 var nodeunit = require('nodeunit');
 var jdbcConn = new ( require('../lib/jdbc.js') );
 
-jinst.setupClasspath(['./drivers/hsqldb.jar',
-                      './drivers/derby.jar',
-                      './drivers/derbyclient.jar',
-                      './drivers/derbytools.jar']);
+if (!jinst.isJvmCreated()) {
+  jinst.setupClasspath(['./drivers/hsqldb.jar',
+                        './drivers/derby.jar',
+                        './drivers/derbyclient.jar',
+                        './drivers/derbytools.jar']);
+}
 
 var config = {
   drivername: 'org.hsqldb.jdbc.JDBCDriver',
@@ -39,6 +41,17 @@ module.exports = {
       test.done();
     });
   },
+  // testsetsavepoint: function(test) {
+  //   jdbcConn.setSavepoint("SVP", function(err, result) {
+  //     test.expect(2);
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //     test.equal(null, err);
+  //     test.ok(result);
+  //     test.done();
+  //   });
+  // },
   testeqinsert: function(test) {
     jdbcConn.executeQuery("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
