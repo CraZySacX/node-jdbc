@@ -36,66 +36,42 @@ module.exports = {
       test.done();
     });
   },
-  // testeqinsert: function(test) {
-  //   derbyConn.executeQuery("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result);
-  //     test.done();
-  //   });
-  // },
-  // testeuinsert: function(test) {
-  //   derbyConn.executeUpdate("INSERT INTO blah VALUES (3, 'Temp', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result && result == 1);
-  //     test.done();
-  //   });
-  // },
-  // testequpdate: function(test) {
-  //   derbyConn.executeQuery("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result);
-  //     test.done();
-  //   });
-  // },
-  // testeuupdate: function(test) {
-  //   derbyConn.executeUpdate("UPDATE blah SET id = 4 WHERE name = 'Temp';", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result && result == 1);
-  //     test.done();
-  //   });
-  // },
-  // testselect: function(test) {
-  //   derbyConn.executeQuery("SELECT * FROM blah;", function(err, result) {
-  //     test.expect(6);
-  //     test.equal(null, err);
-  //     test.ok(result && result.length == 2);
-  //     test.equal(result[0].NAME, 'Jason');
-  //     test.ok(result[0].DATE);
-  //     test.ok(result[0].TIME);
-  //     test.ok(result[0].TIMESTAMP);
-  //     test.done();
-  //   });
-  // },
-  // testeqdelete: function(test) {
-  //   derbyConn.executeQuery("DELETE FROM blah WHERE id = 2;", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result);
-  //     test.done();
-  //   });
-  // },
-  // testeudelete: function(test) {
-  //   derbyConn.executeUpdate("DELETE FROM blah WHERE id = 4;", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result && result == 1);
-  //     test.done();
-  //   });
-  // },
+  testinsert: function(test) {
+    derbyConn.executeUpdate("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)", function(err, result) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(result && result == 1);
+      test.done();
+    });
+  },
+  testupdate: function(test) {
+    derbyConn.executeUpdate("UPDATE blah SET id = 2 WHERE name = 'Jason'", function(err, result) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(result && result == 1);
+      test.done();
+    });
+  },
+  testselect: function(test) {
+    derbyConn.executeQuery("SELECT * FROM blah", function(err, result) {
+      test.expect(6);
+      test.equal(null, err);
+      test.ok(result && result.length == 1);
+      test.equal(result[0].NAME, 'Jason');
+      test.ok(result[0].DATE);
+      test.ok(result[0].TIME);
+      test.ok(result[0].TIMESTAMP);
+      test.done();
+    });
+  },
+  testeqdelete: function(test) {
+    derbyConn.executeUpdate("DELETE FROM blah WHERE id = 2", function(err, result) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(result && result == 1);
+      test.done();
+    });
+  },
   testdroptable: function(test) {
     derbyConn.executeUpdate("DROP TABLE blah", function(err, result) {
       test.expect(1);
