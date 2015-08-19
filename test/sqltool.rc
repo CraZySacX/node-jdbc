@@ -1,0 +1,4 @@
+urlid xdb
+url jdbc:hsqldb:hsql://localhost/xdb;shutdown=true
+username SA
+password

@@ -1,3 +1,5 @@
 #!/bin/bash
-java -classpath drivers/derby.jar:drivers/derbytools.jar:drivers/derbynet.jar -jar drivers/derbyrun.jar server shutdown >test\/derby.log 2>&1 &
+java -jar drivers/sqltool.jar --rcfile test\/sqltool.rc --sql "SHUTDOWN;" xdb
+java -classpath drivers/derby.jar:drivers/derbytools.jar:drivers/derbynet.jar -jar drivers/derbyrun.jar server shutdown
 rm -rf test/testdb
+rm -rf test/mydb.*
