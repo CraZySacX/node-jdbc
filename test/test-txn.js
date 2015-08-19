@@ -102,26 +102,33 @@ module.exports = {
       test.done();
     });
   },
-  // testeqdelete: function(test) {
-  //   jdbcConn.executeQuery("DELETE FROM blah WHERE id = 2;", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result);
-  //     test.done();
-  //   });
-  // },
-  // testeudelete: function(test) {
-  //   jdbcConn.executeUpdate("DELETE FROM blah WHERE id = 4;", function(err, result) {
-  //     test.expect(2);
-  //     test.equal(null, err);
-  //     test.ok(result && result == 1);
-  //     test.done();
-  //   });
-  // },
+  testdeleterollback: function(test) {
+    jdbcConn.executeUpdate("DELETE FROM blah WHERE id = 2", function(err, result) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(result && result == 1);
+      jdbcConn.rollback(null, function(err) { if (err) { console.log(err); }});
+      test.done();
+    });
+  },
+  testselectpostrollback: function(test) {
+    jdbcConn.executeQuery("SELECT * FROM blah", function(err, result) {
+      test.expect(7);
+      test.equal(null, err);
+      test.ok(result && result.length == 1);
+      test.equal(result[0].ID, 2);
+      test.equal(result[0].NAME, 'Jason');
+      test.ok(result[0].DATE);
+      test.ok(result[0].TIME);
+      test.ok(result[0].TIMESTAMP);
+      test.done();
+    });
+  },
   testdroptable: function(test) {
     jdbcConn.executeUpdate("DROP TABLE blah", function(err, result) {
       test.expect(1);
       test.equal(null, err);
+      jdbcConn.commit(function(err) { if (err) { console.log(err); }});
       test.done();
     });
   }
