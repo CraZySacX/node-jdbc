@@ -10,8 +10,10 @@ jinst.setupClasspath(['./drivers/hsqldb.jar',
 var config = {
   drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
-  user : 'SA',
-  password: ''
+  properties: [
+    ['user', 'SA'],
+    ['password','']
+  ]
 };
 
 module.exports = {
@@ -32,7 +34,7 @@ module.exports = {
     });
   },
   testcreatetable: function(test) {
-    jdbcConn.executeQuery("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, result) {
+    jdbcConn.executeQuery("CREATE TABLE blahP (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -40,7 +42,7 @@ module.exports = {
     });
   },
   testeqinsert: function(test) {
-    jdbcConn.executeQuery("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
+    jdbcConn.executeQuery("INSERT INTO blahP VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -48,7 +50,7 @@ module.exports = {
     });
   },
   testeuinsert: function(test) {
-    jdbcConn.executeUpdate("INSERT INTO blah VALUES (3, 'Temp', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
+    jdbcConn.executeUpdate("INSERT INTO blahP VALUES (3, 'Temp', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result && result == 1);
@@ -56,7 +58,7 @@ module.exports = {
     });
   },
   testequpdate: function(test) {
-    jdbcConn.executeQuery("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, result) {
+    jdbcConn.executeQuery("UPDATE blahP SET id = 2 WHERE name = 'Jason';", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -64,7 +66,7 @@ module.exports = {
     });
   },
   testeuupdate: function(test) {
-    jdbcConn.executeUpdate("UPDATE blah SET id = 4 WHERE name = 'Temp';", function(err, result) {
+    jdbcConn.executeUpdate("UPDATE blahP SET id = 4 WHERE name = 'Temp';", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result && result == 1);
@@ -72,7 +74,7 @@ module.exports = {
     });
   },
   testselect: function(test) {
-    jdbcConn.executeQuery("SELECT * FROM blah;", function(err, result) {
+    jdbcConn.executeQuery("SELECT * FROM blahP;", function(err, result) {
       test.expect(6);
       test.equal(null, err);
       test.ok(result && result.length == 2);
@@ -84,7 +86,7 @@ module.exports = {
     });
   },
   testeqdelete: function(test) {
-    jdbcConn.executeQuery("DELETE FROM blah WHERE id = 2;", function(err, result) {
+    jdbcConn.executeQuery("DELETE FROM blahP WHERE id = 2;", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
@@ -92,7 +94,7 @@ module.exports = {
     });
   },
   testeudelete: function(test) {
-    jdbcConn.executeUpdate("DELETE FROM blah WHERE id = 4;", function(err, result) {
+    jdbcConn.executeUpdate("DELETE FROM blahP WHERE id = 4;", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result && result == 1);
@@ -100,7 +102,7 @@ module.exports = {
     });
   },
   testdroptable: function(test) {
-    jdbcConn.executeQuery("DROP TABLE blah;", function(err, result) {
+    jdbcConn.executeQuery("DROP TABLE blahP;", function(err, result) {
       test.expect(2);
       test.equal(null, err);
       test.ok(result);
