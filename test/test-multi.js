@@ -4,6 +4,7 @@ var jdbcConn = new ( require('../lib/jdbc.js') ),
     derbyConn = new( require('../lib/jdbc.js') );
 
 if (!jinst.isJvmCreated()) {
+  jinst.addOption("-Xrs");
   jinst.setupClasspath(['./drivers/hsqldb.jar',
                         './drivers/derby.jar',
                         './drivers/derbyclient.jar',

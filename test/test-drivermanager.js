@@ -4,6 +4,7 @@ var dm = require('../lib/drivermanager.js');
 var java = jinst.getInstance();
 
 if (!jinst.isJvmCreated()) {
+  jinst.addOption("-Xrs");
   jinst.setupClasspath(['./drivers/hsqldb.jar',
                         './drivers/derby.jar',
                         './drivers/derbyclient.jar',
