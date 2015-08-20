@@ -14,7 +14,8 @@ var config = {
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
   user : 'SA',
   password: '',
-  fetchsize: 100
+  fetchsize: 100,
+  minpoolsize: 10
 };
 
 module.exports = {
