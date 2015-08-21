@@ -28,19 +28,27 @@ module.exports = {
         if (err) {
           console.log(err);
         } else {
-          dm.getConnectionWithUserPass(config.url, config.user, config.password, function(err, conn) {
+          dm.getConnection(config.url, function(err, conn) {
               if (err) {
                 console.log(err);
               } else {
                 testconn = new Connection(conn);
               }
               callback();
-          });
+          }, config.user, config.password);
         }
       });
     } else {
       callback();
     }
+  },
+  testabort: function(test) {
+    testconn.abort(null, function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
   },
   testclearwarnings: function(test) {
     testconn.clearWarnings(function(err) {
@@ -54,6 +62,69 @@ module.exports = {
       test.expect(1);
       test.equal(null, err);
       testconn = null;
+      test.done();
+    });
+  },
+  testcommit: function(test) {
+    testconn.commit(function(err) {
+      test.expect(1);
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testcreatearrayof: function(test) {
+    testconn.createArrayOf(null, null, function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testcreateblob: function(test) {
+    testconn.createBlob(function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testcreateclob: function(test) {
+    testconn.createClob(function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testcreatenclob: function(test) {
+    testconn.createNClob(function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testcreatesqlxml: function(test) {
+    testconn.createSQLXML(function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testcreatestatment: function(test) {
+    testconn.createStatement(function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testcreatestruct: function(test) {
+    testconn.createStruct(null, null, function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
       test.done();
     });
   },
@@ -117,9 +188,64 @@ module.exports = {
     testconn.getTransactionIsolation(function(err, txniso) {
       test.expect(3);
       test.equal(null, err);
-      var trc = java.getStaticFieldValue("java.sql.Connection", "TRANSACTION_READ_COMMITTED");
       test.ok(txniso);
-      test.equal(txniso, trc);
+      test.equal(txniso, "TRANSACTION_READ_COMMITTED");
+      test.done();
+    });
+  },
+  testgettypemap: function(test) {
+    testconn.getTypeMap(function(err, map) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(map);
+      test.done();
+    });
+  },
+  testgetwarnings: function(test) {
+    testconn.getWarnings(function(err, sqlwarning) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(sqlwarning);
+      test.done();
+    });
+  },
+  testisclosed: function(test) {
+    testconn.isClosed(function(err, closed) {
+      test.expect(2);
+      test.equal(null, err);
+      test.equal(false, closed);
+      test.done();
+    });
+  },
+  testisreadonly: function(test) {
+    testconn.isReadOnly(function(err, readonly) {
+      test.expect(2);
+      test.equal(null, err);
+      test.equal(false, readonly);
+      test.done();
+    });
+  },
+  testisvalid: function(test) {
+    testconn.isValid(0, function(err, valid) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(valid);
+      test.done();
+    });
+  },
+  testnativesql: function(test) {
+    testconn.nativeSQL(null, function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testpreparecallsql: function(test) {
+    testconn.prepareCall("{ call database() }", function(err, callablestatement) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(callablestatement);
       test.done();
     });
   },

@@ -44,20 +44,20 @@ module.exports = {
     props.putSync('user', config.user);
     props.putSync('password', config.password);
 
-    dm.getConnectionWithProps(config.url, props, function(err, conn) {
+    dm.getConnection(config.url, function(err, conn) {
       test.expect(2);
       test.equal(null, err);
       test.ok(conn);
       test.done();
-    });
+    }, props);
   },
   testgetconnectionwithuserpass: function(test) {
-    dm.getConnectionWithUserPass(config.url, config.user, config.password, function(err, conn) {
+    dm.getConnection(config.url, function(err, conn) {
       test.expect(2);
       test.equal(null, err);
       test.ok(conn);
       test.done();
-    });
+    }, config.user, config.password);
   },
   testsetlogintimeout: function(test) {
     dm.setLoginTimeout(60, function(err) {
