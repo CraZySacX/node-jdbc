@@ -37,4 +37,12 @@ module.exports = {
       test.done();
     });
   },
+  testreserve: function(test) {
+    testpool.reserve(function(err, conn) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(conn && typeof conn == 'object');
+      test.done();
+    });
+  }
 };

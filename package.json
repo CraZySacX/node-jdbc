@@ -4,9 +4,7 @@
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
-    "java": "~0.5",
-    "underscore": "~1.8",
-    "promise": "~7.0"
+    "java": "~0.5"
   },
   "devDependencies": {
     "nodeunit": "~0.9"

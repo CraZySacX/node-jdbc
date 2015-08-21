@@ -13,7 +13,7 @@ if (!jinst.isJvmCreated()) {
 var config = {
   drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
-  user : 'SA',
+  user: 'SA',
   password: '',
   fetchsize: 100,
   minpoolsize: 10

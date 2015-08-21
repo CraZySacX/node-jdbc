@@ -2,6 +2,7 @@ var jinst = require('../lib/jinst.js');
 var nodeunit = require('nodeunit');
 var dm = require('../lib/drivermanager.js');
 var Connection = require('../lib/connection.js');
+var ResultSet = require('../lib/resultset');
 var java = jinst.getInstance();
 
 if (!jinst.isJvmCreated()) {
@@ -113,12 +114,28 @@ module.exports = {
     });
   },
   testcreatestatment: function(test) {
-    testconn.createStatement(function(err) {
+    testconn.createStatement(function(err, statement) {
       test.expect(2);
-      test.ok(err);
-      test.equal("NOT IMPLEMENTED", err.message);
+      test.equal(null, err);
+      test.ok(statement);
       test.done();
     });
+  },
+  testcreatestatement1: function(test) {
+    testconn.createStatement(function(err, statement) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(statement);
+      test.done();
+    }, 0, 0);
+  },
+  testcreatestatement2: function(test) {
+    testconn.createStatement(function(err, statement) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(statement);
+      test.done();
+    }, 0, 0, 0);
   },
   testcreatestruct: function(test) {
     testconn.createStruct(null, null, function(err) {
@@ -246,6 +263,159 @@ module.exports = {
       test.expect(2);
       test.equal(null, err);
       test.ok(callablestatement);
+      test.done();
+    });
+  },
+  testpreparestatement: function(test) {
+    testconn.prepareCall("SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS;", function(err, preparedstatement) {
+      test.expect(2);
+      if (err) {
+        console.log(err);
+      }
+      test.equal(null, err);
+      test.ok(preparedstatement);
+      test.done();
+    });
+  },
+  testreleasesavepoint: function(test) {
+    testconn.setAutoCommit(false, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        testconn.setSavepoint(function(err, savepoint) {
+          if (err) {
+            console.log(err);
+          } else {
+            testconn.releaseSavepoint(savepoint, function(err) {
+              test.expect(1);
+              test.equal(null, err);
+              test.done();
+            });
+          }
+        });
+      }
+    });
+  },
+  testrollback: function(test) {
+    testconn.setAutoCommit(false, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        testconn.rollback(function(err) {
+          test.expect(1);
+          test.equal(null, err);
+          test.done();
+        });
+      }
+    });
+  },
+  testrollbacksavepoint: function(test) {
+    testconn.setAutoCommit(false, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        testconn.setSavepoint(function(err, savepoint) {
+          if (err) {
+            console.log(err);
+          } else {
+            testconn.rollback(function(err) {
+              test.expect(1);
+              test.equal(null, err);
+              test.done();
+            }, savepoint);
+          }
+        });
+      }
+    });
+  },
+  testsetcatalog: function(test) {
+    testconn.setCatalog('PUBLIC', function(err){
+      test.expect(1);
+      if (err) { console.log(err); }
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testsetclientinfo: function(test) {
+    // Note that HSQLDB doesn't support this feature so it errors.
+    testconn.setClientInfo(function(err){
+      test.expect(1);
+      test.ok(err);
+      test.done();
+    }, null, 'TEST', 'ME');
+  },
+  testsetholdability: function(test) {
+    var hold = (new ResultSet(null))._holdability.indexOf('HOLD_CURSORS_OVER_COMMIT');
+    testconn.setHoldability(hold, function(err){
+      test.expect(1);
+      if (err) { console.log(err); }
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testsetnetworktimeout: function(test) {
+    testconn.setNetworkTimeout(null, null, function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
+      test.done();
+    });
+  },
+  testsetreadonly: function(test) {
+    testconn.setReadOnly(true, function(err) {
+      test.expect(1);
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testsetsavepoint: function(test) {
+    testconn.setAutoCommit(false, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        testconn.setSavepoint(function(err, savepoint) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(savepoint);
+          test.done();
+        });
+      }
+    });
+  },
+  testsetsavepointname: function(test) {
+    testconn.setAutoCommit(false, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        testconn.setSavepoint(function(err, savepoint) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(savepoint);
+          test.done();
+        }, "SAVEPOINT");
+      }
+    });
+  },
+  testsetschema: function(test) {
+    testconn.setSchema('PUBLIC', function(err) {
+      test.expect(1);
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testsettransactionisolation: function(test) {
+    var txniso = testconn._txniso.indexOf('TRANSACTION_SERIALIZABLE');
+    testconn.setTransactionIsolation(txniso, function(err) {
+      test.expect(1);
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testsettypemap: function(test) {
+    testconn.setTypeMap(null, function(err) {
+      test.expect(2);
+      test.ok(err);
+      test.equal("NOT IMPLEMENTED", err.message);
       test.done();
     });
   },

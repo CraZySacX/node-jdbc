@@ -13,10 +13,10 @@ if (!jinst.isJvmCreated()) {
 var config = {
   drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
-  properties: [
-    ['user', 'SA'],
-    ['password','']
-  ]
+  properties: {
+    user: 'SA',
+    password: ''
+  }
 };
 
 module.exports = {
