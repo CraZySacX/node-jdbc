@@ -57,4 +57,70 @@ module.exports = {
       test.done();
     });
   },
+  testgetautocommit: function(test) {
+    testconn.getAutoCommit(function(err, result) {
+      test.expect(2);
+      test.equal(null, err);
+      test.equal(true, result);
+      test.done();
+    });
+  },
+  testgetcatalog: function(test) {
+    testconn.getCatalog(function(err, catalog) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(catalog);
+      test.done();
+    });
+  },
+  testgetclientinfo: function(test) {
+    testconn.getClientInfo(function(err, props) {
+      test.expect(2);
+      test.equal(null, err);
+      test.equal(null, props);
+      test.done();
+    });
+  },
+  testgetholdability: function(test) {
+    testconn.getHoldability(function(err, holdability) {
+      test.expect(2);
+      test.equal(null, err);
+      test.equal(null, holdability);
+      test.done();
+    });
+  },
+  testgetmetadata: function(test) {
+    testconn.getMetaData(function(err, metadata) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(metadata);
+      test.done();
+    });
+  },
+  testgetnetworktimeout: function(test) {
+    testconn.getNetworkTimeout(function(err, ms) {
+      test.expect(2);
+      test.equal(null, err);
+      test.equal(0, ms);
+      test.done();
+    });
+  },
+  testgetschema: function(test) {
+    testconn.getSchema(function(err, schema) {
+      test.expect(2);
+      test.equal(null, err);
+      test.ok(schema);
+      test.done();
+    });
+  },
+  testgettransactionisolation: function(test) {
+    testconn.getTransactionIsolation(function(err, txniso) {
+      test.expect(3);
+      test.equal(null, err);
+      var trc = java.getStaticFieldValue("java.sql.Connection", "TRANSACTION_READ_COMMITTED");
+      test.ok(txniso);
+      test.equal(txniso, trc);
+      test.done();
+    });
+  },
 };

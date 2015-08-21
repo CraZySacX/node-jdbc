@@ -16,7 +16,8 @@ var config = {
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
   user : 'SA',
   password: '',
-  minpoolsize: 10
+  minpoolsize: 10,
+  maxpoolsize: 20
 };
 
 var testpool = null;
@@ -30,7 +31,6 @@ module.exports = {
   },
   testinitialize: function(test) {
     testpool.initialize(function(err, poolsize) {
-      console.log("HERE I AM");
       test.expect(2);
       test.equal(null, err);
       test.equal(10, poolsize);
