@@ -110,16 +110,18 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeQuery("SELECT * FROM blah;", function(err, result) {
-          test.expect(2);
+        statement.executeQuery("SELECT * FROM blah;", function(err, resultset) {
+          test.expect(7);
           test.equal(null, err);
-          test.ok(result);
-          // test.equal(result[1].ID, 2);
-          // test.equal(result[1].NAME, 'Another');
-          // test.ok(result[1].DATE);
-          // test.ok(result[1].TIME);
-          // test.ok(result[1].TIMESTAMP);
-          test.done();
+          test.ok(resultset);
+          resultset.toObjArray(function(err, results) {
+            test.equal(results.length, 2);
+            test.equal(results[0].NAME, 'Jason');
+            test.ok(results[0].DATE);
+            test.ok(results[0].TIME);
+            test.ok(results[0].TIMESTAMP);
+            test.done();
+          });
         });
       }
     });

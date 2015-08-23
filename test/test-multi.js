@@ -83,7 +83,7 @@ exports.hsqldb = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeUpdate("UPDATE blah SET id = 4 WHERE name = 'Temp';", function(err, result) {
+        statement.executeUpdate("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, result) {
           test.expect(2);
           test.equal(null, err);
           test.ok(1, result);
@@ -97,15 +97,18 @@ exports.hsqldb = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeQuery("SELECT * FROM blah;", function(err, result) {
-          test.expect(2);
+        statement.executeQuery("SELECT * FROM blah;", function(err, resultset) {
+          test.expect(7);
           test.equal(null, err);
-          test.ok(result);
-          // test.equal(result[0].NAME, 'Jason');
-          // test.ok(result[0].DATE);
-          // test.ok(result[0].TIME);
-          // test.ok(result[0].TIMESTAMP);
-          test.done();
+          test.ok(resultset);
+          resultset.toObjArray(function(err, results) {
+            test.equal(results.length, 1);
+            test.equal(results[0].NAME, 'Jason');
+            test.ok(results[0].DATE);
+            test.ok(results[0].TIME);
+            test.ok(results[0].TIMESTAMP);
+            test.done();
+          });
         });
       }
     });
@@ -115,10 +118,10 @@ exports.hsqldb = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeUpdate("DELETE FROM blah WHERE id = 4;", function(err, result) {
+        statement.executeUpdate("DELETE FROM blah WHERE id = 2;", function(err, result) {
           test.expect(2);
           test.equal(null, err);
-          test.equal(0, result);
+          test.equal(1, result);
           test.done();
         });
       }
@@ -213,16 +216,18 @@ exports.derby = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeQuery("SELECT * FROM blah", function(err, result) {
-          test.expect(2);
+        statement.executeQuery("SELECT * FROM blah", function(err, resultset) {
+          test.expect(7);
           test.equal(null, err);
-          test.ok(result._rs && typeof result._rs === 'object');
-          // TODO: Implement resultset processing
-          // test.equal(blah[0].NAME, 'Jason');
-          // test.ok(blah[0].DATE);
-          // test.ok(blah[0].TIME);
-          // test.ok(blah[0].TIMESTAMP);
-          test.done();
+          test.ok(resultset);
+          resultset.toObjArray(function(err, results) {
+            test.equal(results.length, 1);
+            test.equal(results[0].NAME, 'Jason');
+            test.ok(results[0].DATE);
+            test.ok(results[0].TIME);
+            test.ok(results[0].TIMESTAMP);
+            test.done();
+          });
         });
       }
     });

@@ -94,16 +94,18 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeQuery("SELECT * FROM blah", function(err, result) {
-          test.expect(2);
+        statement.executeQuery("SELECT * FROM blah", function(err, resultset) {
+          test.expect(7);
           test.equal(null, err);
-          test.ok(result._rs && typeof result._rs === 'object');
-          // TODO: Implement resultset processing
-          // test.equal(blah[0].NAME, 'Jason');
-          // test.ok(blah[0].DATE);
-          // test.ok(blah[0].TIME);
-          // test.ok(blah[0].TIMESTAMP);
-          test.done();
+          test.ok(resultset);
+          resultset.toObjArray(function(err, results) {
+            test.equal(results.length, 1);
+            test.equal(results[0].NAME, 'Jason');
+            test.ok(results[0].DATE);
+            test.ok(results[0].TIME);
+            test.ok(results[0].TIMESTAMP);
+            test.done();
+          });
         });
       }
     });
@@ -128,16 +130,18 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeQuery("SELECT * FROM blah", function(err, result) {
-          test.expect(2);
+        statement.executeQuery("SELECT * FROM blah", function(err, resultset) {
+          test.expect(7);
           test.equal(null, err);
-          test.ok(result);
-          // test.equal(result[0].ID, 2);
-          // test.equal(result[0].NAME, 'Jason');
-          // test.ok(result[0].DATE);
-          // test.ok(result[0].TIME);
-          // test.ok(result[0].TIMESTAMP);
-          test.done();
+          test.ok(resultset);
+          resultset.toObjArray(function(err, results) {
+            test.equal(results.length, 1);
+            test.equal(results[0].NAME, 'Jason');
+            test.ok(results[0].DATE);
+            test.ok(results[0].TIME);
+            test.ok(results[0].TIMESTAMP);
+            test.done();
+          });
         });
       }
     });
