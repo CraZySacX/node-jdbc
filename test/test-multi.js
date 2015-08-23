@@ -1,7 +1,6 @@
-var jinst = require('../lib/jinst.js');
 var nodeunit = require('nodeunit');
-var jdbcConn = new ( require('../lib/jdbc.js') ),
-    derbyConn = new( require('../lib/jdbc.js') );
+var jinst = require('../lib/jinst');
+var JDBC = require('../lib/jdbc');
 
 if (!jinst.isJvmCreated()) {
   jinst.addOption("-Xrs");
@@ -12,114 +11,247 @@ if (!jinst.isJvmCreated()) {
 }
 
 var configWithUserInUrl = {
-  drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb;user=SA;password='
 };
 
 var configderby = {
-  drivername: 'org.apache.derby.jdbc.ClientDriver',
   url: 'jdbc:derby://localhost:1527/testdb'
 };
 
-module.exports = {
-  testinit: function(test) {
-    jdbcConn.initialize(configWithUserInUrl, function(err, drivername) {
-      test.expect(2);
-      test.equal(null, err);
-      test.equal(drivername, 'org.hsqldb.jdbc.JDBCDriver');
-      test.done();
-    });
+var hsqldb = new JDBC(configWithUserInUrl);
+var derby = new JDBC(configderby);
+var hsqldbconn = null;
+var derbyconn = null;
+
+exports.hsqldb = {
+  setUp: function(callback) {
+    if (hsqldbconn == null && hsqldb._pool.length > 0) {
+      hsqldb.reserve(function(err, conn) {
+        hsqldbconn = conn;
+        callback();
+      });
+    } else {
+      callback();
+    }
   },
-  testinitderby: function(test) {
-    derbyConn.initialize(configderby, function(err, drivername) {
-      test.expect(2);
-      test.equal(null, err);
-      test.equal(drivername, 'org.apache.derby.jdbc.ClientDriver');
-      test.done();
-    });
+  tearDown: function(callback) {
+    if (hsqldbconn) {
+      hsqldb.release(hsqldbconn, function(err) {
+        callback();
+      });
+    } else {
+      callback();
+    }
   },
-  testopen: function(test) {
-    jdbcConn.open(function(err, conn) {
-      test.expect(2);
+  testinitialize: function(test) {
+    hsqldb.initialize(function(err) {
+      test.expect(1);
       test.equal(null, err);
-      test.ok(conn);
       test.done();
     });
   },
   testcreatetable: function(test) {
-    jdbcConn.executeQuery("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result);
-      test.done();
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.equal(0, result);
+          test.done();
+        });
+      }
     });
   },
-  testeqinsert: function(test) {
-    jdbcConn.executeQuery("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result);
-      test.done();
+  testinsert: function(test) {
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.equal(1, result);
+          test.done();
+        });
+      }
     });
   },
-  testeuinsert: function(test) {
-    jdbcConn.executeUpdate("INSERT INTO blah VALUES (3, 'Temp', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result && result == 1);
-      test.done();
-    });
-  },
-  testequpdate: function(test) {
-    jdbcConn.executeQuery("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result);
-      test.done();
-    });
-  },
-  testeuupdate: function(test) {
-    jdbcConn.executeUpdate("UPDATE blah SET id = 4 WHERE name = 'Temp';", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result && result == 1);
-      test.done();
+  testupdate: function(test) {
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("UPDATE blah SET id = 4 WHERE name = 'Temp';", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(1, result);
+          test.done();
+        });
+      }
     });
   },
   testselect: function(test) {
-    jdbcConn.executeQuery("SELECT * FROM blah;", function(err, result) {
-      test.expect(6);
-      test.equal(null, err);
-      test.ok(result && result.length == 2);
-      test.equal(result[0].NAME, 'Jason');
-      test.ok(result[0].DATE);
-      test.ok(result[0].TIME);
-      test.ok(result[0].TIMESTAMP);
-      test.done();
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeQuery("SELECT * FROM blah;", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(result);
+          // test.equal(result[0].NAME, 'Jason');
+          // test.ok(result[0].DATE);
+          // test.ok(result[0].TIME);
+          // test.ok(result[0].TIMESTAMP);
+          test.done();
+        });
+      }
     });
   },
-  testeqdelete: function(test) {
-    jdbcConn.executeQuery("DELETE FROM blah WHERE id = 2;", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result);
-      test.done();
-    });
-  },
-  testeudelete: function(test) {
-    jdbcConn.executeUpdate("DELETE FROM blah WHERE id = 4;", function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.ok(result && result == 1);
-      test.done();
+  testdelete: function(test) {
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("DELETE FROM blah WHERE id = 4;", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.equal(0, result);
+          test.done();
+        });
+      }
     });
   },
   testdroptable: function(test) {
-    jdbcConn.executeQuery("DROP TABLE blah;", function(err, result) {
-      test.expect(2);
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("DROP TABLE blah;", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.equal(0, result);
+          test.done();
+        });
+      }
+    });
+  },
+};
+
+exports.derby = {
+  setUp: function(callback) {
+    if (derbyconn == null && derby._pool.length > 0) {
+      derby.reserve(function(err, conn) {
+        derbyconn = conn;
+        callback();
+      });
+    } else {
+      callback();
+    }
+  },
+  tearDown: function(callback) {
+    if (derbyconn) {
+      derby.release(derbyconn, function(err) {
+        callback();
+      });
+    } else {
+      callback();
+    }
+  },
+  testinitialize: function(test) {
+    derby.initialize(function(err) {
+      test.expect(1);
       test.equal(null, err);
-      test.ok(result);
       test.done();
+    });
+  },
+  testcreatetable: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP)", function(err, result) {
+          test.expect(1);
+          test.equal(null, err);
+          test.done();
+        });
+      }
+    });
+  },
+  testinsert: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(result && result == 1);
+          test.done();
+        });
+      }
+    });
+  },
+  testupdate: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("UPDATE blah SET id = 2 WHERE name = 'Jason'", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(result && result == 1);
+          test.done();
+        });
+      }
+    });
+  },
+  testselect: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeQuery("SELECT * FROM blah", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(result._rs && typeof result._rs === 'object');
+          // TODO: Implement resultset processing
+          // test.equal(blah[0].NAME, 'Jason');
+          // test.ok(blah[0].DATE);
+          // test.ok(blah[0].TIME);
+          // test.ok(blah[0].TIMESTAMP);
+          test.done();
+        });
+      }
+    });
+  },
+  testdelete: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("DELETE FROM blah WHERE id = 2", function(err, result) {
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(result && result == 1);
+          test.done();
+        });
+      }
+    });
+  },
+  testdroptable: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeUpdate("DROP TABLE blah", function(err, result) {
+          test.expect(1);
+          test.equal(null, err);
+          test.done();
+        });
+      }
     });
   }
 };

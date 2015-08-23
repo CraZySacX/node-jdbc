@@ -1,5 +1,5 @@
-var jinst = require('../lib/jinst.js');
 var nodeunit = require('nodeunit');
+var jinst = require('../lib/jinst');
 var dm = require('../lib/drivermanager.js');
 var java = jinst.getInstance();
 
@@ -12,23 +12,12 @@ if (!jinst.isJvmCreated()) {
 }
 
 var config = {
-  drivername: 'org.hsqldb.jdbc.JDBCDriver',
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
   user : 'SA',
   password: ''
 };
 
 module.exports = {
-  testregisterdriver: function(test) {
-    var driver = java.newInstanceSync(config.drivername);
-
-    dm.registerDriver(driver, function(err, result) {
-      test.expect(2);
-      test.equal(null, err);
-      test.equal(result, true);
-      test.done();
-    });
-  },
   testgetconnection: function(test) {
     dm.getConnection(config.url + ';user=' + config.user + ';password=' + config.password, function(err, conn) {
       test.expect(2);

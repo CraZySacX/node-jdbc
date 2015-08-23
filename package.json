@@ -4,7 +4,10 @@
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
-    "java": "~0.5"
+    "async": "~1.4",
+    "java": "~0.5",
+    "node-uuid": "~1.4",
+    "underscore": "~1.8"
   },
   "devDependencies": {
     "nodeunit": "~0.9"
