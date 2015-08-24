@@ -17,6 +17,7 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 ## Dependencies
 - [async](https://github.com/caolan/async)
 - [node-java](https://github.com/joeferner/node-java)
+- [node-uuid](https://github.com/broofa/node-uuid)
 - [underscore](https://github.com/jashkenas/underscore)
 
 ## Supported Java Versions
