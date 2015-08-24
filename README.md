@@ -1,15 +1,11 @@
-node-jdbc
-=========
+# node-jdbc
+JDBC API Wrapper for node.js
 
-JDBC Wrapper for node.js
+## Latest Version
+0.1.0
 
-Latest Version
---------------
-0.0.15
-
-Support for adding multiple JARs to the classpath has been added.  Use the libs array as shown in
-the initialize section below.  As of release 0.0.9, the minimum version of node.js has been increased 
-to v0.10.  If you need to use this with node.js v0.8, use version 0.0.8 of node-jdbc.
+## Installation
+```npm install node-jdbc```
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
@@ -17,135 +13,390 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
 
 
-## Usage
-Check out [test-hsqldb.js](https://github.com/CraZySacX/node-jdbc/blob/master/test/test-hsqldb.js) for a usage example.
+Major API Refactor
+------------------
+- **One Instance to Rule Them All (JVM)**
+<p>node-java spins up one JVM instance only.  Due to this fact, any JVM options
+and classpath setup have to happen before the first java call.  I've created a
+small wrapper (jinst.js) to help out with this.  See below for example
+usage.</p>
 
-Initialize
-----------
 ```javascript
-var jdbc = new ( require('jdbc') );
+var jinst = require('./jinst');
+var java = jinst.getInstance();
 
-// There are 3 methods to supply user/password combinations
-// In the URL
-var configWithUserInUrl = {
-  // Required
-  libpath: __dirname + 'path/to/jdbc.jar',
-  drivername: 'com.java.driverclass',
-  // Check your driver docs for supplying the user/password in the URL.
-  url: 'url/to/database;user=SA;password=',
-  
-  // Optional
-  libs: [__dirname + 'path/to/other/jars.jar'],
-};
+// isJvmCreated will be true after the first java call.  When this happens, the
+// options and classpath cannot be adjusted.
+if (!jinst.isJvmCreated()) {
+  // Add all java options required by your project here.  You get one chance to
+  // setup the options before the first java call.
+  jinst.addOption("-Xrs");
+  // Add all jar files required by your project here.  You get one chance to
+  // setup the classpath before the first java call.
+  jinst.setupClasspath(['./drivers/hsqldb.jar',
+                        './drivers/derby.jar',
+                        './drivers/derbyclient.jar',
+                        './drivers/derbytools.jar']);
+}
+```
 
-// As key/value pairs.
-var configWithUserInConfig = {
-  // Required
-  libpath: __dirname + 'path/to/jdbc.jar',
-  drivername: 'com.java.driverclass',
-  url: 'url/to/database',
-  
-  // Optional
-  libs: [__dirname + 'path/to/other/jars.jar'],
+I usually add this to every file that may be an entry point.  The
+[unit tests](https://github.com/CraZySacX/node-jdbc/tree/master/test)
+are setup like this due to the fact that order can't be guaranteed.
+
+- **Connection Pooling**
+<p>Everyone gets a pool now.  By default with no extra configuration, the pool
+is created with one connection that can be reserved/released.  Currently, the
+pool is configured with two options: *minpoolsize* and *maxpoolsize*.  If
+*minpoolsize* is set, when the pool is initizlized, *minpoolsize* connections
+will be created.  If *maxpoolsize* is set (the default value is *minpoolsize*),
+and you try and reserve a connection and there aren't any available, the pool
+will be grown.  This can happen until *maxpoolsize* connections have been
+reserved.  The pool should be initialized after configuration is set with the
+*initialize()* function.  JDBC connections can then be acquired with the
+*reserve()* function and returned to the pool with the *release()* function.
+Below is the unit test for the pool that demonstrates usage.</p>
+
+```javascript
+var _ = require('underscore');
+var nodeunit = require('nodeunit');
+var jinst = require('../lib/jinst');
+var Pool = require('../lib/pool');
+var java = jinst.getInstance();
+
+if (!jinst.isJvmCreated()) {
+  jinst.addOption("-Xrs");
+  jinst.setupClasspath(['./drivers/hsqldb.jar',
+                        './drivers/derby.jar',
+                        './drivers/derbyclient.jar',
+                        './drivers/derbytools.jar']);
+}
+
+var config = {
+  url: 'jdbc:hsqldb:hsql://localhost/xdb',
   user : 'SA',
-  password: ''
+  password: '',
+  minpoolsize: 2,
+  maxpoolsize: 3
 };
 
-// As an array.
-var configWithPropertiesInConfig = {
-  // Required
-  libpath: __dirname + 'path/to/jdbc.jar',
-  drivername: 'com.java.driverclass',
-  url: 'url/to/database',
-  
-  // Optional
-  libs: [__dirname + 'path/to/other/jars.jar'],
-  properties: [
-    ['user', 'SA'],
-    ['password','']
-  ]
+var testpool = null;
+var testconn = null;
+
+module.exports = {
+  setUp: function(callback) {
+    if (testpool === null) {
+      testpool = new Pool(config);
+    }
+    callback();
+  },
+  testinitialize: function(test) {
+    testpool.initialize(function(err) {
+      test.expect(1);
+      test.equal(null, err);
+      test.done();
+    });
+  },
+  testreserve: function(test) {
+    testpool.reserve(function(err, conn) {
+      test.expect(4);
+      test.equal(null, err);
+      test.ok(conn && typeof conn == 'object');
+      test.equal(testpool._pool.length, 1);
+      test.equal(testpool._reserved.length, 1);
+      testconn = conn;
+      test.done();
+    });
+  },
+  testrelease: function(test) {
+    testpool.release(testconn, function(err, conn) {
+      test.expect(3);
+      test.equal(null, err);
+      test.equal(testpool._pool.length, 2);
+      test.equal(testpool._reserved.length, 0);
+      testconn = null;
+      test.done();
+    });
+  },
+  testreserverelease: function(test) {
+    testpool.reserve(function(err, conn) {
+      if (err) {
+        console.log(err);
+      } else {
+        testpool.release(conn, function(err) {
+          test.expect(3);
+          test.equal(null, err);
+          test.equal(testpool._pool.length, 2);
+          test.equal(testpool._reserved.length, 0);
+          test.done();
+        });
+      }
+    });
+  },
+  testreservepastmin: function(test) {
+    var conns = [];
+    for(i = 0; i < 3; i++) {
+      testpool.reserve(function(err, conn) {
+        conns.push(conn);
+        if (i == 3) {
+          test.expect(2);
+          test.equal(testpool._pool.length, 0);
+          test.equal(testpool._reserved.length, 3);
+          _.each(conns, function(conn) {
+            testpool.release(conn, function(err) {});
+          });
+          test.done();
+        }
+      });
+    }
+  },
+  testovermax: function(test) {
+    var conns = [];
+    for(i = 0; i < 4; i++) {
+      testpool.reserve(function(err, conn) {
+        if (err) {
+          if (i == 3) {
+            test.expect(3);
+            test.ok(err);
+            test.equal(testpool._reserved.length, 3);
+            test.equal(testpool._pool.length, 0);
+            _.each(conns, function(conn) {
+              testpool.release(conn, function(err) {});
+            });
+            test.done();
+          } else {
+            console.log(err);
+          }
+        } else {
+          conns.push(conn);
+        }
+      });
+    }
+  }
 };
+```
+
+- **Fully Wrapped Connection API**
+<p></p>
+
+## Usage
+### Initialize
+```javascript
+var jinst = require('jinst');
+var JDBC = require('jdbc');
+
+if (!jinst.isJvmCreated()) {
+  jinst.addOption("-Xrs");
+  jinst.setupClasspath(['./drivers/hsqldb.jar',
+                        './drivers/derby.jar',
+                        './drivers/derbyclient.jar',
+                        './drivers/derbytools.jar']);
+}
 
 var config = {
   // Required
-  libpath: __dirname + 'path/to/jdbc.jar',
-  drivername: 'com.java.driverclass',
-  url: 'url/to/database',
-  
+  url: 'jdbc:hsqldb:hsql://localhost/xdb',
+
   // Optional
-  libs: [__dirname + 'path/to/other/jars.jar'],
-  user: 'user',
-  password: 'secret',
+  user: 'SA',
+  password: '',
+  minpoolsize: 10,
+  maxpoolsize: 100,
+  properties: {}
 };
 
-jdbc.initialize(config, function(err, res) {
+// or user/password in url
+// var config = {
+//   // Required
+//   url: 'jdbc:hsqldb:hsql://localhost/xdb;user=SA;password=',
+//
+//   // Optional
+//   minpoolsize: 10
+//   maxpoolsize: 100,
+//   properties: {}
+// };
+
+// or user/password in properties
+// var config = {
+//   // Required
+//   url: 'jdbc:hsqldb:hsql://localhost/xdb',
+//
+//   // Optional
+//   minpoolsize: 10,
+//   maxpoolsize: 100,
+//   properties: {
+//     user: 'SA',
+//     password: ''
+//     // Other driver supported properties can be added here as well.
+//   }
+// };
+
+var hsqldb = new JDBC(config);
+
+hsqldb.initialize(function(err) {
   if (err) {
     console.log(err);
   }
 });
 ```
 
-Open Connection, Execute Queries, Close
----------------------------------------
+### Reserve Connection, Execute Queries, Release Connection
 ```javascript
-var genericQueryHandler = function(err, results) {
-  if (err) {
-    console.log(err);
-  } else if (results) {
-    console.log(results);
-  }
-  
-  jdbc.close(function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log("Connection closed successfully!");
-    }
-  });
+// This assumes initialization as above.
+// For series execution.
+var asyncjs = require('async');
 
-};
+hsqldb.reserve(function(err, connObj) {
+  // The connection returned from the pool is an object with two fields
+  // {uuid: <uuid>, conn: <Connection>}
+  if (connObj) {
+    console.log("Using connection: " + connObj.uuid);
+    // Grab the Connection for use.
+    var conn = connObj.conn;
 
-jdbc.open(function(err, conn) {
-  if (conn) {
-    // SELECT statements are called with executeQuery
-    jdbc.executeQuery("SELECT * FROM table", genericQueryHandler);
-
-    // Table modifying statements (UPDATE/INSERT/DELETE/etc) are called with executeUpdate
-    jdbc.executeUpdate("UPDATE table SET column = value", genericQueryHandler);
-
-    // Use non-generic callbacks to handle queries individually and/or to nest queries
-    jdbc.executeUpdate("INSERT INTO table VALUES (value)", function(err, results) {
-      
-      if(results > some_arbitrary_value) {
-        jdbc.executeQuery("SELECT * FROM table where column = value", genericQueryHandler);
+    // Adjust some connection options.  See connection.js for a full set of
+    // supported methods.
+    asyncjs.series([
+      function(callback) {
+        conn.setAutoCommit(false, function(err) {
+          if (err) {
+            callback(err);
+          } else {
+            callback(null);
+          }
+        });
+      },
+      function(callback) {
+        conn.setSchema("test", function(err) {
+          if (err) {
+            callback(err);
+          } else {
+            callback(null);
+          }
+        });
       }
-    
+    ], function(err, results) {
+      // Check for errors if need be.
+      // results is an array.
+    });
+
+    // Query the database.
+    asyncjs.series([
+      function(callback) {
+        // CREATE SQL.
+        conn.createStatement(function(err, statement) {
+          if (err) {
+            callback(err);
+          } else {
+            statement.executeUpdate("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, count) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, count);
+              }
+            });
+          }
+        });
+      },
+      function(callback) {
+        conn.createStatement(function(err, statement) {
+          if (err) {
+            callback(err);
+          } else {
+            statement.executeUpdate("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, count) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, count);
+              }
+            });
+          }
+        });
+      },
+      function(callback) {
+        // Update statement.
+        conn.createStatement(function(err, statement) {
+          if (err) {
+            callback(err);
+          } else {
+            statement.executeUpdate("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, count) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, count);
+              }
+            });
+          }
+        });
+      },
+      function(callback) {
+        // Select statement example.
+        conn.createStatement(function(err, statement) {
+          if (err) {
+            callback(err);
+          } else {
+            // Adjust some statement options before use.  See statement.js for
+            // a full listing of supported options.
+            statement.setFetchSize(100, function(err) {
+              if (err) {
+                callback(err);
+              } else {
+                statement.executeQuery("SELECT * FROM blah;", function(err, resultset) {
+                  if (err) {
+                    callback(err)
+                  } else {
+                    resultset.toObjArray(function(err, results) {
+                      if (results.length > 0) {
+                        console.log("ID: " + results[0].ID);
+                      }
+                      callback(null, resultset);
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      },
+      function(callback) {
+        conn.createStatement(function(err, statement) {
+          if (err) {
+            callback(err);
+          } else {
+            statement.executeUpdate("DELETE FROM blah WHERE id = 2;", function(err, count) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, count);
+              }
+            });
+          }
+        });
+      },
+      function(callback) {
+        conn.createStatement(function(err, statement) {
+          if (err) {
+            callback(err);
+          } else {
+            statement.executeUpdate("DROP TABLE blah;", function(err, count) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null, count);
+              }
+            });
+          }
+        });
+      }
+    ], function(err, results) {
+      // Results can also be processed here.
+      // Release the connection back to the pool.
+      hsqldb.release(connObj, function(err) {
+        if (err) {
+          console.log(err.message);
+        }
+      });
     });
   }
 });
-
-
 ```
-
-API
----------------------------------
-
-### initialize(config, callback)
- - see above example for config object
- - callback(error)
-
-### open(callback)
- - opens a new connection
- - callback(error)
-
-### close(callback)
- - closes any existing connection
- - callback(error)
-
-### executeQuery(sql, callback)
- - SELECT commands.
- - callback(error, rset)
-
-### executeUpdate(sql, callback) 
- - table modifying commands (INSERT, UPDATE, DELETE, etc).
- - callback(error, num_rows) where @num_rows is the number of rows modified
