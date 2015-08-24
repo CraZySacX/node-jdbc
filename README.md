@@ -60,7 +60,6 @@ var _ = require('underscore');
 var nodeunit = require('nodeunit');
 var jinst = require('../lib/jinst');
 var Pool = require('../lib/pool');
-var java = jinst.getInstance();
 
 if (!jinst.isJvmCreated()) {
   jinst.addOption("-Xrs");
@@ -333,7 +332,10 @@ hsqldb.reserve(function(err, connObj) {
           if (err) {
             callback(err);
           } else {
-            statement.executeUpdate("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP);", function(err, count) {
+            statement.executeUpdate("CREATE TABLE blah "
+                                  + "(id int, name varchar(10), date DATE, "
+                                  + " time TIME, timestamp TIMESTAMP);",
+                                  function(err, count) {
               if (err) {
                 callback(err);
               } else {
@@ -348,7 +350,10 @@ hsqldb.reserve(function(err, connObj) {
           if (err) {
             callback(err);
           } else {
-            statement.executeUpdate("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP);", function(err, count) {
+            statement.executeUpdate("INSERT INTO blah "
+                                  + "VALUES (1, 'Jason', CURRENT_DATE, "
+                                  + "CURRENT_TIME, CURRENT_TIMESTAMP);",
+                                  function(err, count) {
               if (err) {
                 callback(err);
               } else {
@@ -364,7 +369,10 @@ hsqldb.reserve(function(err, connObj) {
           if (err) {
             callback(err);
           } else {
-            statement.executeUpdate("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, count) {
+            statement.executeUpdate("UPDATE blah "
+                                  + "SET id = 2 "
+                                  + "WHERE name = 'Jason';",
+                                  function(err, count) {
               if (err) {
                 callback(err);
               } else {
@@ -386,7 +394,8 @@ hsqldb.reserve(function(err, connObj) {
               if (err) {
                 callback(err);
               } else {
-                statement.executeQuery("SELECT * FROM blah;", function(err, resultset) {
+                statement.executeQuery("SELECT * FROM blah;",
+                                       function(err, resultset) {
                   if (err) {
                     callback(err)
                   } else {
@@ -408,7 +417,8 @@ hsqldb.reserve(function(err, connObj) {
           if (err) {
             callback(err);
           } else {
-            statement.executeUpdate("DELETE FROM blah WHERE id = 2;", function(err, count) {
+            statement.executeUpdate("DELETE FROM blah "
+                                  + "WHERE id = 2;", function(err, count) {
               if (err) {
                 callback(err);
               } else {
