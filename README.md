@@ -183,7 +183,18 @@ module.exports = {
 ```
 
 - **Fully Wrapped Connection API**
-<p></p>
+<p>The Java Connection API has almost been completely wrapped.  See
+connection.js for a full list of functions.</p>
+
+```javascript
+conn.setAutoCommit(false, function(err) {
+  if (err) {
+    callback(err);
+  } else {
+    callback(null);
+  }
+});
+```
 
 ## Usage
 ### Initialize
