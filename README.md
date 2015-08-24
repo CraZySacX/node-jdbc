@@ -23,7 +23,6 @@ usage.</p>
 
 ```javascript
 var jinst = require('./jinst');
-var java = jinst.getInstance();
 
 // isJvmCreated will be true after the first java call.  When this happens, the
 // options and classpath cannot be adjusted.
@@ -91,6 +90,7 @@ module.exports = {
     callback();
   },
   testinitialize: function(test) {
+    // Initialize the pool (create minpoolsize connections)
     testpool.initialize(function(err) {
       test.expect(1);
       test.equal(null, err);
@@ -98,6 +98,7 @@ module.exports = {
     });
   },
   testreserve: function(test) {
+    // Reserve a connection.
     testpool.reserve(function(err, conn) {
       test.expect(4);
       test.equal(null, err);
@@ -109,6 +110,7 @@ module.exports = {
     });
   },
   testrelease: function(test) {
+    // Release a connection.
     testpool.release(testconn, function(err, conn) {
       test.expect(3);
       test.equal(null, err);
@@ -119,6 +121,7 @@ module.exports = {
     });
   },
   testreserverelease: function(test) {
+    // Reserve then release a connection.
     testpool.reserve(function(err, conn) {
       if (err) {
         console.log(err);
@@ -134,6 +137,7 @@ module.exports = {
     });
   },
   testreservepastmin: function(test) {
+    // Reserve connections past minpoolsize.  This will grow the pool.
     var conns = [];
     for(i = 0; i < 3; i++) {
       testpool.reserve(function(err, conn) {
@@ -151,6 +155,8 @@ module.exports = {
     }
   },
   testovermax: function(test) {
+    // Reserve connections past maxpoolsize.  This will max out the pool, and
+    // throw an error when the last reserve request is made.
     var conns = [];
     for(i = 0; i < 4; i++) {
       testpool.reserve(function(err, conn) {
