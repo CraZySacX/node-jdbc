@@ -14,16 +14,21 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
 
+## Dependencies
+- [async](https://github.com/caolan/async)
+- [node-java](https://github.com/joeferner/node-java)
+- [underscore](https://github.com/jashkenas/underscore)
+
 ## Supported Java Versions
 - 1.6
 - 1.7
 
-node-java has experiemental support for 1.8, and if you are brave you can compile it with such.  All the tests
-work out of the box on a 1.8 JVM, but I've only wrapped 1.7 functions.
+[node-java](https://github.com/joeferner/node-java) has experiemental support for 1.8, and if you are brave you can 
+compile it with such.  All the tests work out of the box on a 1.8 JVM, but I've only wrapped 1.7 functions.
 
 ## Major API Refactor
 - **One Instance to Rule Them All (JVM)**
-<p>node-java spins up one JVM instance only.  Due to this fact, any JVM options
+<p>[node-java](https://github.com/joeferner/node-java) spins up one JVM instance only.  Due to this fact, any JVM options
 and classpath setup have to happen before the first java call.  I've created a
 small wrapper (jinst.js) to help out with this.  See below for example
 usage.  I usually add this to every file that may be an entry point.  The
