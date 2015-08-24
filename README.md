@@ -182,7 +182,8 @@ module.exports = {
 
 - **Fully Wrapped Connection API**
 <p>The Java Connection API has almost been completely wrapped.  See
-connection.js for a full list of functions.</p>
+[connection.js](https://github.com/CraZySacX/node-jdbc/blob/master/lib/connection.js) 
+for a full list of functions.</p>
 
 ```javascript
 conn.setAutoCommit(false, function(err) {
