@@ -2,7 +2,9 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-0.1.0
+0.1.0 - Before upgrading, read the [Major API Refactor](#Major API Refactor)
+section.  This is NOT backwards compatible with the old API.
+0.0.15 - Old API.
 
 ## Installation
 ```npm install node-jdbc```
@@ -13,13 +15,14 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
 
 
-Major API Refactor
-------------------
+## Major API Refactor
 - **One Instance to Rule Them All (JVM)**
 <p>node-java spins up one JVM instance only.  Due to this fact, any JVM options
 and classpath setup have to happen before the first java call.  I've created a
 small wrapper (jinst.js) to help out with this.  See below for example
-usage.</p>
+usage.  I usually add this to every file that may be an entry point.  The
+[unit tests](https://github.com/CraZySacX/node-jdbc/tree/master/test)
+are setup like this due to the fact that order can't be guaranteed.</p>
 
 ```javascript
 var jinst = require('./jinst');
@@ -39,10 +42,6 @@ if (!jinst.isJvmCreated()) {
 }
 ```
 
-I usually add this to every file that may be an entry point.  The
-[unit tests](https://github.com/CraZySacX/node-jdbc/tree/master/test)
-are setup like this due to the fact that order can't be guaranteed.
-
 - **Connection Pooling**
 <p>Everyone gets a pool now.  By default with no extra configuration, the pool
 is created with one connection that can be reserved/released.  Currently, the
@@ -54,7 +53,7 @@ will be grown.  This can happen until *maxpoolsize* connections have been
 reserved.  The pool should be initialized after configuration is set with the
 *initialize()* function.  JDBC connections can then be acquired with the
 *reserve()* function and returned to the pool with the *release()* function.
-Below is the unit test for the pool that demonstrates usage.</p>
+Below is the unit test for the pool that demonstrates this behavior.</p>
 
 ```javascript
 var _ = require('underscore');
@@ -192,6 +191,35 @@ conn.setAutoCommit(false, function(err) {
     callback(err);
   } else {
     callback(null);
+  }
+});
+```
+
+- **ResultSet processing separated from statement execution**
+<p>ResultSet processing has been separated from statement execution to allow for
+more flexibility.  The ResultSet returned from executing a select query can
+still be processed into an object array using the *toObjArray()* function on the
+resultset object.</p>
+
+```javascript
+// Select statement example.
+conn.createStatement(function(err, statement) {
+  if (err) {
+    callback(err);
+  } else {
+    statement.executeQuery("SELECT * FROM blah;", function(err, resultset) {
+      if (err) {
+        callback(err)
+      } else {
+        // Convert the result set to an object array.
+        resultset.toObjArray(function(err, results) {
+          if (results.length > 0) {
+            console.log("ID: " + results[0].ID);
+          }
+          callback(null, resultset);
+        });
+      }
+    });
   }
 });
 ```
