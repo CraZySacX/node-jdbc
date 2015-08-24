@@ -37,7 +37,7 @@ usage.  I usually add this to every file that may be an entry point.  The
 are setup like this due to the fact that order can't be guaranteed.</p>
 
 ```javascript
-var jinst = require('./jinst');
+var jinst = require('jdbc/lib/jinst');
 
 // isJvmCreated will be true after the first java call.  When this happens, the
 // options and classpath cannot be adjusted.
@@ -237,10 +237,13 @@ conn.createStatement(function(err, statement) {
 ```
 
 ## Usage
+Some mininal examples are given below.  I've also created a 
+[node-example-jdbc](https://github.com/CraZySacX/node-jdbc-example) project with more thorough examples.
+
 ### Initialize
 ```javascript
-var jinst = require('jinst');
 var JDBC = require('jdbc');
+var jinst = require('jdbc/lib/jinst');
 
 if (!jinst.isJvmCreated()) {
   jinst.addOption("-Xrs");
