@@ -14,6 +14,12 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
 
+## Supported Java Versions
+- 1.6
+- 1.7
+
+node-java has experiemental support for 1.8, and if you are brave you can compile it with such.  All the tests
+work out of the box on a 1.8 JVM, but I've only wrapped 1.7 functions.
 
 ## Major API Refactor
 - **One Instance to Rule Them All (JVM)**
