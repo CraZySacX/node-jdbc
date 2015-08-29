@@ -268,6 +268,35 @@ exports.derby = {
       }
     });
   },
+  testselectobject: function(test) {
+    derbyconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.executeQuery("SELECT * FROM blah", function(err, resultset) {
+          test.expect(13);
+          test.equal(null, err);
+          test.ok(resultset);
+          resultset.toObject(function(err, results) {
+            test.equal(results.rows.length, 1);
+            test.equal(results.rows[0].NAME, 'Jason');
+            test.ok(results.rows[0].DATE);
+            test.ok(results.rows[0].TIME);
+            test.ok(results.rows[0].TIMESTAMP);
+
+            test.equal(results.labels.length, 5);
+            test.equal(results.labels[0], 'ID');
+            test.equal(results.labels[1], 'NAME');
+            test.ok(results.labels[2], 'DATE');
+            test.ok(results.labels[3], 'TIME');
+            test.ok(results.labels[4], 'TIMESTAMP');
+            
+            test.done();
+          });
+        });
+      }
+    });
+  },
   testdelete: function(test) {
     derbyconn.conn.createStatement(function(err, statement) {
       if (err) {
