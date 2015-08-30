@@ -25,7 +25,7 @@ var derbyconn = null;
 
 exports.hsqldb = {
   setUp: function(callback) {
-    if (hsqldbconn == null && hsqldb._pool.length > 0) {
+    if (hsqldbconn === null && hsqldb._pool.length > 0) {
       hsqldb.reserve(function(err, conn) {
         hsqldbconn = conn;
         callback();
@@ -181,7 +181,7 @@ exports.hsqldb = {
 
 exports.derby = {
   setUp: function(callback) {
-    if (derbyconn == null && derby._pool.length > 0) {
+    if (derbyconn === null && derby._pool.length > 0) {
       derby.reserve(function(err, conn) {
         derbyconn = conn;
         callback();

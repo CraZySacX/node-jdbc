@@ -10,12 +10,13 @@
     "underscore": "~1.8"
   },
   "devDependencies": {
+    "jshint": "~2.8",
     "nodeunit": "~0.9"
   },
   "scripts": {
-    "pretest": "bin\/startdbs",
+    "pretest": "bin/startdbs",
     "test": "nodeunit test",
-    "posttest": "bin\/stopdbs"
+    "posttest": "bin/stopdbs"
   },
   "repository": {
     "type": "git",

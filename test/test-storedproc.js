@@ -21,7 +21,7 @@ var testconn = null;
 
 module.exports = {
   setUp: function(callback) {
-    if (testconn == null && hsqldb._pool.length > 0) {
+    if (testconn === null && hsqldb._pool.length > 0) {
       hsqldb.reserve(function(err, conn) {
         testconn = conn;
         callback();
@@ -79,11 +79,11 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeUpdate("CREATE PROCEDURE new_blah(id int, name varchar(10))"
-                                + "MODIFIES SQL DATA "
-                                + "BEGIN ATOMIC "
-                                + "  INSERT INTO blah VALUES (id, name, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP); "
-                                + "END;", function(err, result) {
+        statement.executeUpdate("CREATE PROCEDURE new_blah(id int, name varchar(10))" +
+                                "MODIFIES SQL DATA " +
+                                "BEGIN ATOMIC " +
+                                "  INSERT INTO blah VALUES (id, name, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP); " +
+                                "END;", function(err, result) {
           test.expect(1);
           test.equal(null, err);
           test.done();
