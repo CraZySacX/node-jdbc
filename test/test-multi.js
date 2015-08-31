@@ -25,7 +25,7 @@ var derbyconn = null;
 
 exports.hsqldb = {
   setUp: function(callback) {
-    if (hsqldbconn == null && hsqldb._pool.length > 0) {
+    if (hsqldbconn === null && hsqldb._pool.length > 0) {
       hsqldb.reserve(function(err, conn) {
         hsqldbconn = conn;
         callback();
@@ -113,6 +113,42 @@ exports.hsqldb = {
       }
     });
   },
+  testselectbyexecute: function(test) {
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.execute("SELECT * FROM blah;", function(err, resultset) {
+          test.expect(7);
+          test.equal(null, err);
+          test.ok(resultset);
+          resultset.toObjArray(function(err, results) {
+            test.equal(results.length, 1);
+            test.equal(results[0].NAME, 'Jason');
+            test.ok(results[0].DATE);
+            test.ok(results[0].TIME);
+            test.ok(results[0].TIMESTAMP);
+            test.done();
+          });
+        });
+      }
+    });
+  },
+  testupdatebyexecute: function(test) {
+    hsqldbconn.conn.createStatement(function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.execute("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, result) {
+          console.log('update', err, result);
+          test.expect(2);
+          test.equal(null, err);
+          test.ok(1, result);
+          test.done();
+        });
+      }
+    });
+  },
   testdelete: function(test) {
     hsqldbconn.conn.createStatement(function(err, statement) {
       if (err) {
@@ -145,7 +181,7 @@ exports.hsqldb = {
 
 exports.derby = {
   setUp: function(callback) {
-    if (derbyconn == null && derby._pool.length > 0) {
+    if (derbyconn === null && derby._pool.length > 0) {
       derby.reserve(function(err, conn) {
         derbyconn = conn;
         callback();

@@ -23,7 +23,7 @@ var testconn = null;
 
 module.exports = {
   setUp: function(callback) {
-    if (testconn == null && hsqldb._pool.length > 0) {
+    if (testconn === null && hsqldb._pool.length > 0) {
       hsqldb.reserve(function(err, conn) {
         testconn = conn;
         callback();

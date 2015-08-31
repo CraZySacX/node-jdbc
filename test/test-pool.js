@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var asyncjs = require('async');
 var nodeunit = require('nodeunit');
 var jinst = require('../lib/jinst');
 var Pool = require('../lib/pool');
@@ -74,43 +75,34 @@ module.exports = {
     });
   },
   testreservepastmin: function(test) {
-    var conns = [];
-    for(i = 0; i < 3; i++) {
+    asyncjs.times(3, function(n, next) {
       testpool.reserve(function(err, conn) {
-        conns.push(conn);
-        if (i == 3) {
-          test.expect(2);
-          test.equal(testpool._pool.length, 0);
-          test.equal(testpool._reserved.length, 3);
-          _.each(conns, function(conn) {
-            testpool.release(conn, function(err) {});
-          });
-          test.done();
-        }
+        next(err, conn);
       });
-    }
+    }, function(err, results) {
+      test.expect(2);
+      test.equal(testpool._pool.length, 0);
+      test.equal(testpool._reserved.length, 3);
+      _.each(results, function(conn) {
+        testpool.release(conn, function(err) {});
+      });
+      test.done();
+    });
   },
   testovermax: function(test) {
-    var conns = [];
-    for(i = 0; i < 4; i++) {
+    asyncjs.times(4, function(n, next) {
       testpool.reserve(function(err, conn) {
-        if (err) {
-          if (i == 3) {
-            test.expect(3);
-            test.ok(err);
-            test.equal(testpool._reserved.length, 3);
-            test.equal(testpool._pool.length, 0);
-            _.each(conns, function(conn) {
-              testpool.release(conn, function(err) {});
-            });
-            test.done();
-          } else {
-            console.log(err);
-          }
-        } else {
-          conns.push(conn);
-        }
+        next(err, conn);
       });
-    }
+    }, function(err, results) {
+      test.expect(3);
+      test.ok(err);
+      test.equal(testpool._reserved.length, 3);
+      test.equal(testpool._pool.length, 0);
+      _.each(results, function(conn) {
+        testpool.release(conn, function(err) {});
+      });
+      test.done();
+    });
   }
 };

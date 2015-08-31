@@ -19,7 +19,7 @@ var testconn = null;
 
 module.exports = {
   setUp: function(callback) {
-    if (testconn == null && derby._pool.length > 0) {
+    if (testconn === null && derby._pool.length > 0) {
       derby.reserve(function(err, conn) {
         testconn = conn;
         testconn.conn.setAutoCommit(false, function(err) {

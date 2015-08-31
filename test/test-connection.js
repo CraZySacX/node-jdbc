@@ -23,7 +23,7 @@ var testconn = null;
 
 module.exports = {
   setUp: function(callback) {
-    if (testconn == null) {
+    if (testconn === null) {
       dm.getConnection(config.url, function(err, conn) {
         if (err) {
           console.log(err);
