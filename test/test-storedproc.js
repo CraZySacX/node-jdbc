@@ -79,7 +79,7 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeUpdate("CREATE PROCEDURE new_blah(id int, name varchar(10))"
+        statement.executeUpdate("CREATE PROCEDURE new_blah(id int, name varchar(10)) "
                                 + "MODIFIES SQL DATA "
                                 + "BEGIN ATOMIC "
                                 + "  INSERT INTO blah VALUES (id, name, CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP); "
