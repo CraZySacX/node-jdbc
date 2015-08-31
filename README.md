@@ -24,7 +24,7 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 - 1.6
 - 1.7
 
-[node-java](https://github.com/joeferner/node-java) has experiemental support for 1.8, and if you are brave you can 
+[node-java](https://github.com/joeferner/node-java) has experiemental support for 1.8, and if you are brave you can
 compile it with such.  All the tests work out of the box on a 1.8 JVM, but I've only wrapped 1.7 functions.
 
 ## Major API Refactor
@@ -194,7 +194,7 @@ module.exports = {
 
 - **Fully Wrapped Connection API**
 <p>The Java Connection API has almost been completely wrapped.  See
-[connection.js](https://github.com/CraZySacX/node-jdbc/blob/master/lib/connection.js) 
+[connection.js](https://github.com/CraZySacX/node-jdbc/blob/master/lib/connection.js)
 for a full list of functions.</p>
 
 ```javascript
@@ -237,7 +237,7 @@ conn.createStatement(function(err, statement) {
 ```
 
 ## Usage
-Some mininal examples are given below.  I've also created a 
+Some mininal examples are given below.  I've also created a
 [node-example-jdbc](https://github.com/CraZySacX/node-jdbc-example) project with more thorough examples.
 
 ### Initialize
@@ -258,10 +258,16 @@ var config = {
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
 
   // Optional
-  user: 'SA',
-  password: '',
   minpoolsize: 10,
   maxpoolsize: 100,
+
+  // Note that if you sepecify the user and password as below, they get
+  // converted to properties and submitted to getConnection that way.  That
+  // means that if your driver doesn't support the 'user' and 'password'
+  // properties this will not work.  You will have to supply the appropriate
+  // values in the properties object instead.
+  user: 'SA',
+  password: '',
   properties: {}
 };
 
