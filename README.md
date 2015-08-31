@@ -12,7 +12,7 @@ section.  This is NOT backwards compatible with the old API.
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
 ## Status
-[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
+[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=v0.1.1)](https://travis-ci.org/CraZySacX/node-jdbc)
 
 ## Dependencies
 - [async](https://github.com/caolan/async)
