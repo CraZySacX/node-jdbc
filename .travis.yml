@@ -1,4 +1,4 @@
-language: node_js
+language: java 
 sudo: false
 env:
   - NODE_VERSION="4.1" CC=clang CXX=clang++
