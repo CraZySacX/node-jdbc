@@ -10,8 +10,11 @@ env:
   - NODE_VERSION="0.11"
   - NODE_VERSION="0.10"
 before_install:
+  - nvm --version
   - nvm install $NODE_VERSION
 before_script:
+  - npm --version
+  - node --version
   - npm install
 script:
   - npm test
