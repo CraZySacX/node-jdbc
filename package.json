@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "async": "~1.4",
-    "java": "~0.5",
+    "java": "~0.6",
     "node-uuid": "~1.4",
     "underscore": "~1.8"
   },
