@@ -2,7 +2,7 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-- **0.1.1** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
+- **0.1.2** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
 section.  This is NOT backwards compatible with the old API.
 - 0.0.15 - Old API.
 
@@ -23,6 +23,7 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 ## Supported Java Versions
 - 1.6
 - 1.7
+- 1.8
 
 [node-java](https://github.com/joeferner/node-java) has experiemental support for 1.8, and if you are brave you can
 compile it with such.  All the tests work out of the box on a 1.8 JVM, but I've only wrapped 1.7 functions.
