@@ -21,7 +21,6 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 - [lodash](https://github.com/lodash/lodash)
 
 ## Supported Java Versions
-- 1.6
 - 1.7
 - 1.8
 
