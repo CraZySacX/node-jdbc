@@ -18,7 +18,7 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 - [async](https://github.com/caolan/async)
 - [node-java](https://github.com/joeferner/node-java)
 - [node-uuid](https://github.com/broofa/node-uuid)
-- [underscore](https://github.com/jashkenas/underscore)
+- [lodash](https://github.com/lodash/lodash)
 
 ## Supported Java Versions
 - 1.6
@@ -69,7 +69,7 @@ reserved.  The pool should be initialized after configuration is set with the
 Below is the unit test for the pool that demonstrates this behavior.</p>
 
 ```javascript
-var _ = require('underscore');
+var _ = require('lodash');
 var nodeunit = require('nodeunit');
 var jinst = require('../lib/jinst');
 var Pool = require('../lib/pool');

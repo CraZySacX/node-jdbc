@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var asyncjs = require('async');
 var nodeunit = require('nodeunit');
 var jinst = require('../lib/jinst');
