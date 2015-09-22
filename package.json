@@ -14,9 +14,9 @@
     "nodeunit": "~0.9"
   },
   "scripts": {
-    "pretest": "bin/startdbs",
+    "pretest": "bash bin/startdbs",
     "test": "nodeunit test",
-    "posttest": "bin/stopdbs"
+    "posttest": "bash bin/stopdbs"
   },
   "repository": {
     "type": "git",
