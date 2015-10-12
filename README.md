@@ -258,6 +258,7 @@ var config = {
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
 
   // Optional
+  drivername: 'my.jdbc.DriverName',
   minpoolsize: 10,
   maxpoolsize: 100,
 
@@ -277,6 +278,7 @@ var config = {
 //   url: 'jdbc:hsqldb:hsql://localhost/xdb;user=SA;password=',
 //
 //   // Optional
+//   drivername: 'my.jdbc.DriverName',
 //   minpoolsize: 10
 //   maxpoolsize: 100,
 //   properties: {}
@@ -288,6 +290,7 @@ var config = {
 //   url: 'jdbc:hsqldb:hsql://localhost/xdb',
 //
 //   // Optional
+//   drivername: 'my.jdbc.DriverName',
 //   minpoolsize: 10,
 //   maxpoolsize: 100,
 //   properties: {
