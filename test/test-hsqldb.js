@@ -57,7 +57,13 @@ module.exports = {
           test.expect(2);
           test.equal(null, err);
           test.equal(0, result);
-          test.done();
+          statement.close(function(err) {
+            if (err) {
+              console.log(err);
+            } else {
+              test.done();
+            }
+          });
         });
       }
     });
