@@ -140,7 +140,6 @@ exports.hsqldb = {
         console.log(err);
       } else {
         statement.execute("UPDATE blah SET id = 2 WHERE name = 'Jason';", function(err, result) {
-          console.log('update', err, result);
           test.expect(2);
           test.equal(null, err);
           test.ok(1, result);
@@ -290,7 +289,7 @@ exports.derby = {
             test.ok(results.labels[2], 'DATE');
             test.ok(results.labels[3], 'TIME');
             test.ok(results.labels[4], 'TIMESTAMP');
-            
+
             test.done();
           });
         });
