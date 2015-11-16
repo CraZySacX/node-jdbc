@@ -7,7 +7,7 @@ section.  This is NOT backwards compatible with the old API.
 - 0.0.15 - Old API.
 
 ## Installation
-```npm install node-jdbc```
+```npm install jdbc```
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
