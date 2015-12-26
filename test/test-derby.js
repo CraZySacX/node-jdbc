@@ -16,6 +16,8 @@ var derby = new JDBC({
 
 var testconn = null;
 
+var testDate = new Date();
+
 module.exports = {
   setUp: function(callback) {
     if (testconn === null && derby._pool.length > 0) {
@@ -101,6 +103,168 @@ module.exports = {
             test.ok(results[0].TIMESTAMP);
             test.done();
           });
+        });
+      }
+    });
+  },
+  testpreparedselectsetint: function(test) {
+    testconn.conn.prepareStatement("SELECT * FROM blah WHERE id=?",function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.setInt(1,2, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            statement.executeQuery(function(err, resultset) {
+              test.expect(3);
+              test.equal(null, err);
+              test.ok(resultset);
+              resultset.toObjArray(function(err, results) {
+                test.equal(results.length, 1);
+                test.done();
+              });
+            });
+          }
+        });
+      }
+    });
+  },
+  testpreparedselectsetstring: function(test) {
+    testconn.conn.prepareStatement("SELECT * FROM blah WHERE name=?",function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.setString(1,'Jason', function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            statement.executeQuery(function(err, resultset) {
+              test.expect(3);
+              test.equal(null, err);
+              test.ok(resultset);
+              resultset.toObjArray(function(err, results) {
+                test.equal(results.length, 1);
+                test.done();
+              });
+            });
+          }
+        });
+      }
+    });
+  },
+  testpreparedinsertsetdate: function(test) {
+    testconn.conn.prepareStatement("INSERT INTO blah (id,name,date) VALUES (3,'Test',?)",function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.setDate(1,testDate, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            statement.executeUpdate(function(err, numrows) {
+              if (err) {
+                console.log(err);
+              } else {
+                test.expect(2);
+                test.equal(null, err);
+                test.equal(1,numrows);
+                test.done();
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+  testpreparedselectsetdate: function(test) {
+    testconn.conn.prepareStatement("SELECT * FROM blah WHERE id = 3 AND date = ?",function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.setDate(1,testDate, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            statement.executeQuery(function(err, resultset) {
+              if (err) {
+                console.log(err);
+              } else {
+                test.expect(3);
+                test.equal(null, err);
+                test.ok(resultset);
+                resultset.toObjArray(function(err, results) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    test.equal(results.length, 1);
+                    test.done();
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+  testpreparedinsertsettimestamp: function(test) {
+    testconn.conn.prepareStatement("INSERT INTO blah (id,name,timestamp) VALUES (4,'Test',?)",function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.setTimestamp(1,testDate, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            statement.executeUpdate(function(err, numrows) {
+              if (err) {
+                console.log(err);
+              } else {
+                test.expect(2);
+                test.equal(null, err);
+                test.equal(1,numrows);
+                test.done();
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+  testpreparedselectsettimestamp: function(test) {
+    testconn.conn.prepareStatement("SELECT * FROM blah WHERE id = 4 AND timestamp = ?",function(err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.setTimestamp(1,testDate, function(err) {
+          if (err) {
+            console.log(err);
+          }
+          else {
+            statement.executeQuery(function(err, resultset) {
+              if (err) {
+                console.log(err);
+              } else {
+                test.expect(3);
+                test.equal(null, err);
+                test.ok(resultset);
+                resultset.toObjArray(function(err, results) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    test.equal(results.length, 1);
+                    test.done();
+                  }
+                });
+              }
+            });
+          }
         });
       }
     });
