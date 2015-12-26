@@ -15,8 +15,7 @@ var derby = new JDBC({
 });
 
 var testconn = null;
-
-var testDate = new Date();
+var testDate = Date.now();
 
 module.exports = {
   setUp: function(callback) {
@@ -156,22 +155,23 @@ module.exports = {
     });
   },
   testpreparedinsertsetdate: function(test) {
+    var myjava = jinst.getInstance();
     testconn.conn.prepareStatement("INSERT INTO blah (id,name,date) VALUES (3,'Test',?)",function(err, statement) {
       if (err) {
         console.log(err);
       } else {
-        statement.setDate(1,testDate, function(err) {
+        var sqlDate = myjava.newInstanceSync("java.sql.Date", myjava.newLong(testDate));
+        statement.setDate(1, sqlDate, function(err) {
           if (err) {
             console.log(err);
-          }
-          else {
+          } else {
             statement.executeUpdate(function(err, numrows) {
               if (err) {
                 console.log(err);
               } else {
                 test.expect(2);
                 test.equal(null, err);
-                test.equal(1,numrows);
+                test.equal(1, numrows);
                 test.done();
               }
             });
@@ -181,11 +181,13 @@ module.exports = {
     });
   },
   testpreparedselectsetdate: function(test) {
+    var myjava = jinst.getInstance();
     testconn.conn.prepareStatement("SELECT * FROM blah WHERE id = 3 AND date = ?",function(err, statement) {
       if (err) {
         console.log(err);
       } else {
-        statement.setDate(1,testDate, function(err) {
+        var sqlDate = myjava.newInstanceSync("java.sql.Date", myjava.newLong(testDate));
+        statement.setDate(1, sqlDate, function(err) {
           if (err) {
             console.log(err);
           }
@@ -213,11 +215,13 @@ module.exports = {
     });
   },
   testpreparedinsertsettimestamp: function(test) {
+    var myjava = jinst.getInstance();
     testconn.conn.prepareStatement("INSERT INTO blah (id,name,timestamp) VALUES (4,'Test',?)",function(err, statement) {
       if (err) {
         console.log(err);
       } else {
-        statement.setTimestamp(1,testDate, function(err) {
+        var sqlTimestamp = myjava.newInstanceSync("java.sql.Timestamp", myjava.newLong(testDate));
+        statement.setTimestamp(1, sqlTimestamp, function(err) {
           if (err) {
             console.log(err);
           }
@@ -238,11 +242,13 @@ module.exports = {
     });
   },
   testpreparedselectsettimestamp: function(test) {
+    var myjava = jinst.getInstance();
     testconn.conn.prepareStatement("SELECT * FROM blah WHERE id = 4 AND timestamp = ?",function(err, statement) {
       if (err) {
         console.log(err);
       } else {
-        statement.setTimestamp(1,testDate, function(err) {
+        var sqlTimestamp = myjava.newInstanceSync("java.sql.Timestamp", myjava.newLong(testDate));
+        statement.setTimestamp(1, sqlTimestamp, function(err) {
           if (err) {
             console.log(err);
           }
