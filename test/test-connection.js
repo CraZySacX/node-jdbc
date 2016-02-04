@@ -115,20 +115,20 @@ module.exports = {
     });
   },
   testcreatestatement1: function(test) {
-    testconn.createStatement(function(err, statement) {
+    testconn.createStatement(0, 0, function(err, statement) {
       test.expect(2);
       test.equal(null, err);
       test.ok(statement);
       test.done();
-    }, 0, 0);
+    });
   },
   testcreatestatement2: function(test) {
-    testconn.createStatement(function(err, statement) {
+    testconn.createStatement(0, 0, 0, function(err, statement) {
       test.expect(2);
       test.equal(null, err);
       test.ok(statement);
       test.done();
-    }, 0, 0, 0);
+    });
   },
   testcreatestruct: function(test) {
     testconn.createStruct(null, null, function(err) {
@@ -311,11 +311,11 @@ module.exports = {
           if (err) {
             console.log(err);
           } else {
-            testconn.rollback(function(err) {
+            testconn.rollback(savepoint, function(err) {
               test.expect(1);
               test.equal(null, err);
               test.done();
-            }, savepoint);
+            });
           }
         });
       }
@@ -331,11 +331,11 @@ module.exports = {
   },
   testsetclientinfo: function(test) {
     // Note that HSQLDB doesn't support this feature so it errors.
-    testconn.setClientInfo(function(err){
+    testconn.setClientInfo(null, 'TEST', 'ME', function(err){
       test.expect(1);
       test.ok(err);
       test.done();
-    }, null, 'TEST', 'ME');
+    });
   },
   testsetholdability: function(test) {
     var hold = (new ResultSet(null))._holdability.indexOf('HOLD_CURSORS_OVER_COMMIT');
@@ -380,12 +380,12 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        testconn.setSavepoint(function(err, savepoint) {
+        testconn.setSavepoint("SAVEPOINT", function(err, savepoint) {
           test.expect(2);
           test.equal(null, err);
           test.ok(savepoint);
           test.done();
-        }, "SAVEPOINT");
+        });
       }
     });
   },
