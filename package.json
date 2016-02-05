@@ -16,7 +16,8 @@
   "scripts": {
     "pretest": "bash bin/startdbs",
     "test": "nodeunit test",
-    "posttest": "bash bin/stopdbs"
+    "posttest": "bash bin/stopdbs",
+    "lint": "jshint lib/**.js test/**.js"
   },
   "repository": {
     "type": "git",
