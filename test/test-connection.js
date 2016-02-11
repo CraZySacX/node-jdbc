@@ -24,14 +24,14 @@ var testconn = null;
 module.exports = {
   setUp: function(callback) {
     if (testconn === null) {
-      dm.getConnection(config.url, function(err, conn) {
+      dm.getConnection(config.url, config.user, config.password, function(err, conn) {
         if (err) {
           console.log(err);
         } else {
           testconn = new Connection(conn);
           callback();
         }
-      }, config.user, config.password);
+      });
     } else {
       callback();
     }

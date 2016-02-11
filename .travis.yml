@@ -5,6 +5,12 @@ jdk:
   - oraclejdk7
   - openjdk7
 env:
+  - NODE_VERSION="5.5" CC=clang CXX=clang++
+  - NODE_VERSION="5.4" CC=clang CXX=clang++
+  - NODE_VERSION="5.3" CC=clang CXX=clang++
+  - NODE_VERSION="5.2" CC=clang CXX=clang++
+  - NODE_VERSION="5.1" CC=clang CXX=clang++
+  - NODE_VERSION="5.0" CC=clang CXX=clang++
   - NODE_VERSION="4.1" CC=clang CXX=clang++
   - NODE_VERSION="4.0" CC=clang CXX=clang++
   - NODE_VERSION="0.12"
