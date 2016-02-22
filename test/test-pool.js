@@ -104,5 +104,14 @@ module.exports = {
       });
       test.done();
     });
-  }
+  },
+  testpurge: function(test) {
+    testpool.purge(function(err) {
+      test.expect(3);
+      test.equal(null, err);
+      test.equal(testpool._pool.length, 0);
+      test.equal(testpool._reserved.length, 0);
+      test.done();
+    });
+  },
 };

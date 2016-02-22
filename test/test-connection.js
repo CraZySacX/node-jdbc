@@ -59,6 +59,15 @@ module.exports = {
       test.done();
     });
   },
+  testcloseclosed: function(test) {
+    testconn._conn = null;
+    testconn.close(function(err) {
+      test.expect(1);
+      test.equal(null, err);
+      testconn = null;
+      test.done();
+    });
+  },
   testcommit: function(test) {
     testconn.commit(function(err) {
       test.expect(1);
