@@ -2,7 +2,7 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-- **0.1.6** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
+- **0.2.0** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
 section.  This is NOT backwards compatible with the old API.
 - 0.0.15 - Old API.
 
@@ -12,7 +12,7 @@ section.  This is NOT backwards compatible with the old API.
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
 ## Status
-[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=0.1.5)](https://travis-ci.org/CraZySacX/node-jdbc)
+[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=0.2.0)](https://travis-ci.org/CraZySacX/node-jdbc)
 
 ## Dependencies
 - [async](https://github.com/caolan/async)
