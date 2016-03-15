@@ -1,16 +1,16 @@
 {
   "name": "jdbc",
-  "version": "0.2.1-pre.0",
+  "version": "0.2.1",
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
-    "async": "~1.4",
+    "async": "~1.5",
     "java": "~0.6",
     "node-uuid": "~1.4",
     "lodash": "~3.1"
   },
   "devDependencies": {
-    "jshint": "~2.8",
+    "jshint": "~2.9",
     "nodeunit": "~0.9"
   },
   "scripts": {
