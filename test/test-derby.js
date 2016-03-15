@@ -111,7 +111,7 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.setInt(1,2, function(err) {
+        statement.setInt(1, 2, function(err) {
           if (err) {
             console.log(err);
           }
@@ -161,7 +161,7 @@ module.exports = {
         console.log(err);
       } else {
         var sqlDate = myjava.newInstanceSync("java.sql.Date", myjava.newLong(testDate));
-        statement.setDate(1, sqlDate, function(err) {
+        statement.setDate(1, sqlDate, null, function(err) {
           if (err) {
             console.log(err);
           } else {
@@ -187,7 +187,7 @@ module.exports = {
         console.log(err);
       } else {
         var sqlDate = myjava.newInstanceSync("java.sql.Date", myjava.newLong(testDate));
-        statement.setDate(1, sqlDate, function(err) {
+        statement.setDate(1, sqlDate, null, function(err) {
           if (err) {
             console.log(err);
           }
@@ -221,7 +221,7 @@ module.exports = {
         console.log(err);
       } else {
         var sqlTimestamp = myjava.newInstanceSync("java.sql.Timestamp", myjava.newLong(testDate));
-        statement.setTimestamp(1, sqlTimestamp, function(err) {
+        statement.setTimestamp(1, sqlTimestamp, null, function(err) {
           if (err) {
             console.log(err);
           }
@@ -248,7 +248,7 @@ module.exports = {
         console.log(err);
       } else {
         var sqlTimestamp = myjava.newInstanceSync("java.sql.Timestamp", myjava.newLong(testDate));
-        statement.setTimestamp(1, sqlTimestamp, function(err) {
+        statement.setTimestamp(1, sqlTimestamp, null, function(err) {
           if (err) {
             console.log(err);
           }
