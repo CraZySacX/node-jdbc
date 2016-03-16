@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "jshint": "~2.9",
-    "nodeunit": "~0.9"
+    "lolex": "^1.4.0",
+    "nodeunit": "~0.9",
+    "q": "^1.4.1"
   },
   "scripts": {
     "pretest": "bash bin/startdbs",
