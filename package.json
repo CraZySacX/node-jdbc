@@ -1,6 +1,6 @@
 {
   "name": "jdbc",
-  "version": "0.2.2-pre.0",
+  "version": "0.2.2-pre.2",
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
