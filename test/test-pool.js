@@ -21,57 +21,36 @@ var config = {
   maxpoolsize: 3
 };
 
-var testpool = null;
-var testconn = null;
-
 module.exports = {
   setUp: function(callback) {
-    if (testpool === null) {
-      testpool = new Pool(config);
-    }
+    testpool = new Pool(config);
+    testpool.initialize(function(err) {
+      callback();
+    });
+  },
+  tearDown: function(callback) {
+    testpool == null;
     callback();
   },
-  testinitialize: function(test) {
-    testpool.initialize(function(err) {
-      test.expect(1);
-      test.equal(null, err);
-      test.done();
-    });
-  },
-  testreserve: function(test) {
-    testpool.reserve(function(err, conn) {
-      test.expect(4);
-      test.equal(null, err);
-      test.ok(conn && typeof conn == 'object');
-      test.equal(testpool._pool.length, 1);
-      test.equal(testpool._reserved.length, 1);
-      testconn = conn;
-      test.done();
-    });
-  },
-  testrelease: function(test) {
-    testpool.release(testconn, function(err, conn) {
-      test.expect(3);
-      test.equal(null, err);
-      test.equal(testpool._pool.length, 2);
-      test.equal(testpool._reserved.length, 0);
-      testconn = null;
-      test.done();
+  teststatus: function(test) {
+    testpool.reserve(function(err) {
+      testpool.status(function(err, status) {
+        test.expect(2);
+        test.equal(status.available, 1);
+        test.equal(status.reserved, 1);
+        test.done();
+      });
     });
   },
   testreserverelease: function(test) {
     testpool.reserve(function(err, conn) {
-      if (err) {
-        console.log(err);
-      } else {
-        testpool.release(conn, function(err) {
-          test.expect(3);
-          test.equal(null, err);
-          test.equal(testpool._pool.length, 2);
-          test.equal(testpool._reserved.length, 0);
-          test.done();
-        });
-      }
+      testpool.release(conn, function(err, conn) {
+        test.expect(3);
+        test.equal(null, err);
+        test.equal(testpool._pool.length, 2);
+        test.equal(testpool._reserved.length, 0);
+        test.done();
+      });
     });
   },
   testreservepastmin: function(test) {
