@@ -2,7 +2,7 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-- **master** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
+- **0.2.2** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
 section.  This is NOT backwards compatible with the old API.
 - 0.0.15 - Old API.
 
