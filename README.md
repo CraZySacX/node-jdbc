@@ -7,7 +7,8 @@ section.  This is NOT backwards compatible with the old API.
 - 0.0.15 - Old API.
 
 ## Installation
-```npm install jdbc```
+- Release: ```npm i --save jdbc```
+- Development: ```npm i --save jdbc@next``` (this will install code from the master branch).
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
