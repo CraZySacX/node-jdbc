@@ -3,8 +3,6 @@ JDBC API Wrapper for node.js
 
 ## Latest Version
 - **0.3.0** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
-section.  This is NOT backwards compatible with the old API.
-- 0.0.15 - Old API.
 
 ## Installation
 - Release: ```npm i --save jdbc```
@@ -14,12 +12,6 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
-
-## Dependencies
-- [async](https://github.com/caolan/async)
-- [node-java](https://github.com/joeferner/node-java)
-- [node-uuid](https://github.com/broofa/node-uuid)
-- [lodash](https://github.com/lodash/lodash)
 
 ## Supported Java Versions
 - 1.7
@@ -236,6 +228,10 @@ conn.createStatement(function(err, statement) {
   }
 });
 ```
+
+- **Automatically Closing Idle Connections**
+<p>If you pass a **maxidle** property in the config for a new connection pool,
+*pool.reserve()* will close stale connections, and will return a sufficiently fresh connection, or a new connection.  **maxidle** can be number representing the maximum number of milliseconds since a connection was last used, that a connection is still considered alive (without making an extra call to the database to check that the connection is valid).  If **maxidle** is a falsy value or is absent from the config, this feature does not come into effect.  This feature is useful, when connections are automatically closed from the server side after a certain period of time, and when it is not appropriate to use the connection keepalive feature.</p>
 
 ## Usage
 Some mininal examples are given below.  I've also created a
@@ -481,15 +477,3 @@ hsqldb.reserve(function(err, connObj) {
   }
 });
 ```
-
-### Automatically Closing Idle Connections
-If you pass a **maxidle** property in the config for a new connection pool,
-*pool.reserve()* will close stale connections, and will return a sufficiently fresh connection, or a new connection.
-
-**maxidle** can be number representing the maximum number of milliseconds since a connection was last used, that
- a connection is still considered alive (without making an extra call to the database to check that the connection is valid).
-
-If **maxidle** is a falsy value or is absent from the config, this feature does not come into effect.
-
-This feature is useful, when connections are automatically closed from the server side after a certain period of time,
-and when it is not appropriate to use the connection keepalive feature.
