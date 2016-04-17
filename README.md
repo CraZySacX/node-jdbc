@@ -481,3 +481,15 @@ hsqldb.reserve(function(err, connObj) {
   }
 });
 ```
+
+### Automatically Closing Idle Connections
+If you pass a **maxidle** property in the config for a new connection pool,
+*pool.reserve()* will close stale connections, and will return a sufficiently fresh connection, or a new connection.
+
+**maxidle** can be number representing the maximum number of milliseconds since a connection was last used, that
+ a connection is still considered alive (without making an extra call to the database to check that the connection is valid).
+
+If **maxidle** is a falsy value or is absent from the config, this feature does not come into effect.
+
+This feature is useful, when connections are automatically closed from the server side after a certain period of time,
+and when it is not appropriate to use the connection keepalive feature.
