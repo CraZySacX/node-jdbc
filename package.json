@@ -4,15 +4,15 @@
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
-    "async": "~1.5",
+    "async": "~2.0.0-rc.5",
     "java": "^0.7.0",
-    "lodash": "~3.1",
+    "lodash": "~4.12",
     "node-uuid": "~1.4",
     "winston": "^2.2.0"
   },
   "devDependencies": {
     "jshint": "~2.9",
-    "lolex": "^1.4.0",
+    "lolex": "^1.5.0",
     "nodeunit": "~0.9",
     "q": "^1.4.1"
   },

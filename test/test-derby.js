@@ -49,7 +49,9 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeUpdate("CREATE TABLE blah (id int, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP)", function(err, result) {
+        var create = "CREATE TABLE blah ";
+        create += "(id int, bi bigint, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP)";
+        statement.executeUpdate(create, function(err, result) {
           test.expect(1);
           test.equal(null, err);
           test.done();
@@ -62,7 +64,9 @@ module.exports = {
       if (err) {
         console.log(err);
       } else {
-        statement.executeUpdate("INSERT INTO blah VALUES (1, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)", function(err, result) {
+        var insert = "INSERT INTO blah VALUES ";
+        insert += "(1, 9223372036854775807, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)"
+        statement.executeUpdate(insert, function(err, result) {
           test.expect(2);
           test.equal(null, err);
           test.ok(result && result == 1);
@@ -91,11 +95,12 @@ module.exports = {
         console.log(err);
       } else {
         statement.executeQuery("SELECT * FROM blah", function(err, resultset) {
-          test.expect(7);
+          test.expect(8);
           test.equal(null, err);
           test.ok(resultset);
           resultset.toObjArray(function(err, results) {
             test.equal(results.length, 1);
+            test.equal(results[0].BI, '9223372036854775807');
             test.equal(results[0].NAME, 'Jason');
             test.ok(results[0].DATE);
             test.ok(results[0].TIME);
