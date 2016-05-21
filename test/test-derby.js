@@ -65,7 +65,7 @@ module.exports = {
         console.log(err);
       } else {
         var insert = "INSERT INTO blah VALUES ";
-        insert += "(1, 9223372036854775807, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)"
+        insert += "(1, 9223372036854775807, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)";
         statement.executeUpdate(insert, function(err, result) {
           test.expect(2);
           test.equal(null, err);

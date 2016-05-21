@@ -29,7 +29,7 @@ module.exports = {
     });
   },
   tearDown: function(callback) {
-    testpool == null;
+    testpool = null;
     callback();
   },
   teststatus: function(test) {
