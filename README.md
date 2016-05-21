@@ -2,16 +2,16 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-- **0.3.0** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
+- **0.3.1** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
 
 ## Installation
 - Release: ```npm i --save jdbc```
-- Development: ```npm i --save jdbc@next``` (this will install code from the master branch).
+- Development: ```npm i --save jdbc@next``` (this will install code from the 0.3.1 branch).
 
 Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on installing with npm.
 
 ## Status
-[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
+[![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=0.3.1)](https://travis-ci.org/CraZySacX/node-jdbc)
 
 ## Supported Java Versions
 - 1.7
@@ -26,7 +26,7 @@ compile it with such.  All the tests work out of the box on a 1.8 JVM, but I've 
 and classpath setup have to happen before the first java call.  I've created a
 small wrapper (jinst.js) to help out with this.  See below for example
 usage.  I usually add this to every file that may be an entry point.  The
-[unit tests](https://github.com/CraZySacX/node-jdbc/tree/master/test)
+[unit tests](https://github.com/CraZySacX/node-jdbc/tree/0.3.1/test)
 are setup like this due to the fact that order can't be guaranteed.</p>
 
 ```javascript
@@ -187,7 +187,7 @@ module.exports = {
 
 - **Fully Wrapped Connection API**
 <p>The Java Connection API has almost been completely wrapped.  See
-[connection.js](https://github.com/CraZySacX/node-jdbc/blob/master/lib/connection.js)
+[connection.js](https://github.com/CraZySacX/node-jdbc/blob/0.3.1/lib/connection.js)
 for a full list of functions.</p>
 
 ```javascript
