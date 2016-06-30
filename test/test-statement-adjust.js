@@ -75,10 +75,9 @@ module.exports = {
             if (err)
               console.log(err);
             else {
-              test.expect(3);
+              test.expect(2);
               test.equal(null, err);
               test.ok(results);
-              test.equal(results.length, 50);
             }
           });
 
