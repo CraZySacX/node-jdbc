@@ -67,6 +67,7 @@ module.exports = {
         asyncjs.times(50, function (n, next) {
             var insert = "INSERT INTO blahMax VALUES " +
               "(" + n + ", 'Jason_" + n + "', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)";
+
             statement.executeUpdate(insert, function (err, result) {
               next(err, result);
             });
@@ -75,13 +76,13 @@ module.exports = {
             if (err)
               console.log(err);
             else {
-              test.expect(2);
+              test.expect(3);
               test.equal(null, err);
+              test.equal(50, results.length);
               test.ok(results);
+              test.done();
             }
           });
-
-        test.done();
       }
     });
   },
