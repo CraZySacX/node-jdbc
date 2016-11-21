@@ -7,7 +7,7 @@
     "async": "~2.1.2",
     "java": "^0.8.0",
     "lodash": "~4.17",
-    "node-uuid": "~1.4",
+    "uuid": "^3.0.0",
     "winston": "^2.3.0"
   },
   "devDependencies": {
