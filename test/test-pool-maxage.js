@@ -18,14 +18,6 @@ if (!jinst.isJvmCreated()) {
                         './drivers/derbytools.jar']);
 }
 
-var config = {
-  url: 'jdbc:hsqldb:hsql://localhost/xdb',
-  user : 'SA',
-  password: '',
-  minpoolsize: 1,
-  maxpoolsize: 1
-};
-
 var configWithMaxAge = {
   url: 'jdbc:hsqldb:hsql://localhost/xdb',
   user : 'SA',
@@ -56,7 +48,7 @@ module.exports = {
   group1: {
     setUp: function(callback){
       clock = lolex.install();
-      testpool = new Pool(config);
+      testpool = new Pool(configWithMaxAge);
 
       return Q.ninvoke(testpool, 'reserve')
           .then(function (conn) {
@@ -90,7 +82,7 @@ module.exports = {
   group2: {
     setUp: function(callback) {
       clock = lolex.install();
-      testpool = new Pool(configWithMaxIdle);
+      testpool = new Pool(configWithMaxAgeAndKeepAlive);
 
       return Q.ninvoke(testpool, 'reserve')
           .then(function(conn) {
