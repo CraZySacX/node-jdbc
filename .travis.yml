@@ -1,45 +1,21 @@
+dist: trusty
 language: java
 sudo: false
 jdk:
   - oraclejdk8
+  - openjdk8
   - oraclejdk7
   - openjdk7
 env:
-  - NODE_VERSION="7.1" CC=clang CXX=clang++
-  - NODE_VERSION="7.0" CC=clang CXX=clang++
-  - NODE_VERSION="6.9.1" CC=clang CXX=clang++
-  - NODE_VERSION="6.8.1" CC=clang CXX=clang++
-  - NODE_VERSION="6.7" CC=clang CXX=clang++
-  - NODE_VERSION="6.6" CC=clang CXX=clang++
-  - NODE_VERSION="6.5" CC=clang CXX=clang++
-  - NODE_VERSION="6.4" CC=clang CXX=clang++
-  - NODE_VERSION="6.3.1" CC=clang CXX=clang++
-  - NODE_VERSION="6.2.2" CC=clang CXX=clang++
-  - NODE_VERSION="6.1" CC=clang CXX=clang++
-  - NODE_VERSION="6.0" CC=clang CXX=clang++
-  - NODE_VERSION="5.12" CC=clang CXX=clang++
-  - NODE_VERSION="5.11.1" CC=clang CXX=clang++
-  - NODE_VERSION="5.10.1" CC=clang CXX=clang++
-  - NODE_VERSION="5.9.1" CC=clang CXX=clang++
-  - NODE_VERSION="5.8" CC=clang CXX=clang++
-  - NODE_VERSION="5.7.1" CC=clang CXX=clang++
-  - NODE_VERSION="5.6" CC=clang CXX=clang++
-  - NODE_VERSION="5.5" CC=clang CXX=clang++
-  - NODE_VERSION="5.4.1" CC=clang CXX=clang++
-  - NODE_VERSION="5.3" CC=clang CXX=clang++
-  - NODE_VERSION="5.2" CC=clang CXX=clang++
-  - NODE_VERSION="5.1.1" CC=clang CXX=clang++
-  - NODE_VERSION="5.0" CC=clang CXX=clang++
-  - NODE_VERSION="4.6.2" CC=clang CXX=clang++
-  - NODE_VERSION="4.5" CC=clang CXX=clang++
-  - NODE_VERSION="4.4.7" CC=clang CXX=clang++
-  - NODE_VERSION="4.3.2" CC=clang CXX=clang++
-  - NODE_VERSION="4.2.6" CC=clang CXX=clang++
-  - NODE_VERSION="4.1.2" CC=clang CXX=clang++
-  - NODE_VERSION="4.0" CC=clang CXX=clang++
-  - NODE_VERSION="0.12"
-  - NODE_VERSION="0.11"
-  - NODE_VERSION="0.10"
+  - NODE_VERSION="9.2.0" CC=clang CXX=clang++
+  - NODE_VERSION="8.9.1" CC=clang CXX=clang++
+  - NODE_VERSION="7.10.1" CC=clang CXX=clang++
+  - NODE_VERSION="6.12.0" CC=clang CXX=clang++
+  - NODE_VERSION="5.12.0" CC=clang CXX=clang++
+  - NODE_VERSION="4.8.6" CC=clang CXX=clang++
+  - NODE_VERSION="0.12.18"
+  - NODE_VERSION="0.11.16"
+  - NODE_VERSION="0.10.48"
 before_install:
   - nvm --version
   - nvm install $NODE_VERSION
