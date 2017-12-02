@@ -302,6 +302,19 @@ module.exports = {
       }
     });
   },
+  testcancel: function (test) {
+    testconn.conn.createStatement(function (err, statement) {
+      if (err) {
+        console.log(err);
+      } else {
+        statement.cancel(function(err) {
+          test.expect(1);
+          test.equal(null, err);
+          test.done();
+        });
+      }
+    });
+  },
   testdroptable: function(test) {
     testconn.conn.createStatement(function(err, statement) {
       if (err) {
