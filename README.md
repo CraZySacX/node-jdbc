@@ -236,6 +236,9 @@ conn.createStatement(function(err, statement) {
 <p>If you pass a **maxidle** property in the config for a new connection pool,
 *pool.reserve()* will close stale connections, and will return a sufficiently fresh connection, or a new connection.  **maxidle** can be number representing the maximum number of milliseconds since a connection was last used, that a connection is still considered alive (without making an extra call to the database to check that the connection is valid).  If **maxidle** is a falsy value or is absent from the config, this feature does not come into effect.  This feature is useful, when connections are automatically closed from the server side after a certain period of time, and when it is not appropriate to use the connection keepalive feature.</p>
 
+<p> If you pass a **maxage** property in the config for a new connection pool,
+*pool.reserve()* will close expired connections, and will return a sufficiently younger connection, or a new connection. **maxage** can be a number representing the maximum number of milliseconds since the birth(initialization) of connection, for which it will be considered alive (without making an extra call to the database to check that the connection is valid). If **maxage** is a falsy value or is absent from the config, this feature does not come into effect. This feature is useful, when connections are automatically closed from the server side after a certain period of time regardless of **whether they were active or not**, such as situations where keepalive or maxidle properties are not able to sustain a connection. 
+
 ## Usage
 Some mininal examples are given below.  I've also created a
 [node-example-jdbc](https://github.com/CraZySacX/node-jdbc-example) project with more thorough examples.
