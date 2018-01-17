@@ -24,13 +24,15 @@ Note that Java 9 is not currently supported.  When node-java supports Java 9, I 
 new Java 9 API changes (if any).
 
 ## Major API Refactor
+
 - **One Instance to Rule Them All (JVM)**
-<p>[node-java](https://github.com/joeferner/node-java) spins up one JVM instance only.  Due to this fact, any JVM options
+
+[node-java](https://github.com/joeferner/node-java) spins up one JVM instance only.  Due to this fact, any JVM options
 and classpath setup have to happen before the first java call.  I've created a
 small wrapper (jinst.js) to help out with this.  See below for example
 usage.  I usually add this to every file that may be an entry point.  The
 [unit tests](https://github.com/CraZySacX/node-jdbc/tree/master/test)
-are setup like this due to the fact that order can't be guaranteed.</p>
+are setup like this due to the fact that order can't be guaranteed.
 
 ```javascript
 var jinst = require('jdbc/lib/jinst');
@@ -50,18 +52,20 @@ if (!jinst.isJvmCreated()) {
 }
 ```
 
+
 - **Connection Pooling**
-<p>Everyone gets a pool now.  By default with no extra configuration, the pool
+
+Everyone gets a pool now.  By default with no extra configuration, the pool
 is created with one connection that can be reserved/released.  Currently, the
-pool is configured with two options: *minpoolsize* and *maxpoolsize*.  If
-*minpoolsize* is set, when the pool is initizlized, *minpoolsize* connections
-will be created.  If *maxpoolsize* is set (the default value is *minpoolsize*),
+pool is configured with two options: `minpoolsize` and `maxpoolsize`.  If
+`minpoolsize` is set, when the pool is initialized, `minpoolsize` connections
+will be created.  If `maxpoolsize` is set (the default value is `minpoolsize`),
 and you try and reserve a connection and there aren't any available, the pool
-will be grown.  This can happen until *maxpoolsize* connections have been
+will be grown.  This can happen until `maxpoolsize` connections have been
 reserved.  The pool should be initialized after configuration is set with the
-*initialize()* function.  JDBC connections can then be acquired with the
-*reserve()* function and returned to the pool with the *release()* function.
-Below is the unit test for the pool that demonstrates this behavior.</p>
+`initialize()` function.  JDBC connections can then be acquired with the
+`reserve()` function and returned to the pool with the `release()` function.
+Below is the unit test for the pool that demonstrates this behavior.
 
 ```javascript
 var _ = require('lodash');
@@ -188,10 +192,12 @@ module.exports = {
 };
 ```
 
+
 - **Fully Wrapped Connection API**
-<p>The Java Connection API has almost been completely wrapped.  See
+
+The Java Connection API has almost been completely wrapped.  See
 [connection.js](https://github.com/CraZySacX/node-jdbc/blob/master/lib/connection.js)
-for a full list of functions.</p>
+for a full list of functions.
 
 ```javascript
 conn.setAutoCommit(false, function(err) {
@@ -203,11 +209,13 @@ conn.setAutoCommit(false, function(err) {
 });
 ```
 
+
 - **ResultSet processing separated from statement execution**
-<p>ResultSet processing has been separated from statement execution to allow for
+
+ResultSet processing has been separated from statement execution to allow for
 more flexibility.  The ResultSet returned from executing a select query can
-still be processed into an object array using the *toObjArray()* function on the
-resultset object.</p>
+still be processed into an object array using the `toObjArray()` function on the
+resultset object.
 
 ```javascript
 // Select statement example.
@@ -232,9 +240,11 @@ conn.createStatement(function(err, statement) {
 });
 ```
 
+
 - **Automatically Closing Idle Connections**
-<p>If you pass a **maxidle** property in the config for a new connection pool,
-*pool.reserve()* will close stale connections, and will return a sufficiently fresh connection, or a new connection.  **maxidle** can be number representing the maximum number of milliseconds since a connection was last used, that a connection is still considered alive (without making an extra call to the database to check that the connection is valid).  If **maxidle** is a falsy value or is absent from the config, this feature does not come into effect.  This feature is useful, when connections are automatically closed from the server side after a certain period of time, and when it is not appropriate to use the connection keepalive feature.</p>
+
+If you pass a **maxidle** property in the config for a new connection pool,
+`pool.reserve()` will close stale connections, and will return a sufficiently fresh connection, or a new connection.  **maxidle** can be number representing the maximum number of milliseconds since a connection was last used, that a connection is still considered alive (without making an extra call to the database to check that the connection is valid).  If **maxidle** is a falsy value or is absent from the config, this feature does not come into effect.  This feature is useful, when connections are automatically closed from the server side after a certain period of time, and when it is not appropriate to use the connection keepalive feature.
 
 ## Usage
 Some mininal examples are given below.  I've also created a
