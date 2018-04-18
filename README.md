@@ -2,7 +2,7 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-- **0.6.1** - Before upgrading, read the [Major API Refactor](#major-api-refactor)
+- **0.6.2**
 
 ## Installation
 - Release: ```npm i --save jdbc```
