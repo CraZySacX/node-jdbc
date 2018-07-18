@@ -2,6 +2,7 @@ var config = require("./common/connection");
 var dm = require('../lib/drivermanager');
 var Connection = require('../lib/connection');
 var ResultSet = require('../lib/resultset');
+require("../lib/jdbc").Promise = global.Promise || require("bluebird");
 
 var testconn = null;
 

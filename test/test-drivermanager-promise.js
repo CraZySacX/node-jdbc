@@ -1,6 +1,8 @@
 var config = require("./common/drivermanager");
 var dm = require('../lib/drivermanager.js');
 var jinst = require('../lib/jinst');
+require("../lib/jdbc").Promise = global.Promise || require("bluebird");
+
 var java = jinst.getInstance();
 
 module.exports = {

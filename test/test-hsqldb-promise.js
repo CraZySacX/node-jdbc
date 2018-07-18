@@ -1,5 +1,6 @@
 var hsqldb = require("./common/hsqldb");
 var jinst = require('../lib/jinst');
+require("../lib/jdbc").Promise = global.Promise || require("bluebird");
 
 var testconn = null;
 var testDate = Date.now();
