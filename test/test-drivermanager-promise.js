@@ -5,47 +5,59 @@ var java = jinst.getInstance();
 
 module.exports = {
   testgetconnection: function(test) {
-    dm.getConnection(config.url + ';user=' + config.user + ';password=' + config.password, function(err, conn) {
-      test.expect(2);
-      test.equal(null, err);
+    test.expect(1);
+    dm.getConnection(config.url + ';user=' + config.user + ';password=' + config.password).then(function(conn) {
       test.ok(conn);
+      test.done();
+    }).catch(function(err) {
+      console.log(err);
       test.done();
     });
   },
   testgetconnectionwithprops: function(test) {
+    test.expect(1);
     var Properties = java.import('java.util.Properties');
     var props = new Properties();
 
     props.putSync('user', config.user);
     props.putSync('password', config.password);
 
-    dm.getConnection(config.url, props, function(err, conn) {
-      test.expect(2);
-      test.equal(null, err);
+    dm.getConnection(config.url, props).then(function(conn) {
       test.ok(conn);
+      test.done();
+    }).catch(function(err) {
+      console.log(err);
       test.done();
     });
   },
   testgetconnectionwithuserpass: function(test) {
-    dm.getConnection(config.url, config.user, config.password, function(err, conn) {
-      test.expect(2);
-      test.equal(null, err);
+    test.expect(1);
+    dm.getConnection(config.url, config.user, config.password).then(function(conn) {
       test.ok(conn);
+      test.done();
+    }).catch(function(err) {
+      console.log(err);
       test.done();
     });
   },
   testsetlogintimeout: function(test) {
-    dm.setLoginTimeout(60, function(err) {
-      test.expect(1);
-      test.equals(null, err);
+    test.expect(1);
+    dm.setLoginTimeout(60).then(function() {
+      test.ok(true);
+      test.done();
+    }).catch(function(err) {
+      console.log(err);
       test.done();
     });
   },
   testgetlogintimeout: function(test) {
-    dm.getLoginTimeout(function(err, seconds) {
-      test.expect(2);
+    test.expect(2);
+    dm.getLoginTimeout().then(function(seconds) {
       test.ok(seconds);
       test.equal(60, seconds);
+      test.done();
+    }).catch(function(err) {
+      console.log(err);
       test.done();
     });
   }
