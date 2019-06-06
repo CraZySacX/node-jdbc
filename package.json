@@ -4,16 +4,16 @@
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
   "dependencies": {
-    "async": "~2.6.0",
-    "java": "^0.9.0",
-    "lodash": "~4.17",
-    "uuid": "^3.1.0",
-    "winston": "^2.4.0"
+    "async": "~3.0.1",
+    "java": "^0.11.0",
+    "lodash": "~4.17.11",
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
-    "jshint": "~2.9",
-    "lolex": "^2.3.1",
-    "nodeunit": "~0.11",
+    "jshint": "~2.10.2",
+    "lolex": "^4.1.0",
+    "nodeunit": "~0.11.3",
     "q": "^1.5.1"
   },
   "scripts": {
