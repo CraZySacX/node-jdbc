@@ -2,20 +2,10 @@ dist: trusty
 language: java
 sudo: false
 jdk:
-  - oraclejdk8
-  - openjdk8
-  - oraclejdk7
-  - openjdk7
+  - oraclejdk9
+  - openjdk9
 env:
-  - NODE_VERSION="9.2.0" CC=clang CXX=clang++
-  - NODE_VERSION="8.9.1" CC=clang CXX=clang++
-  - NODE_VERSION="7.10.1" CC=clang CXX=clang++
-  - NODE_VERSION="6.12.0" CC=clang CXX=clang++
-  - NODE_VERSION="5.12.0" CC=clang CXX=clang++
-  - NODE_VERSION="4.8.6" CC=clang CXX=clang++
-  - NODE_VERSION="0.12.18"
-  - NODE_VERSION="0.11.16"
-  - NODE_VERSION="0.10.48"
+  - NODE_VERSION="12"
 before_install:
   - nvm --version
   - nvm install $NODE_VERSION
