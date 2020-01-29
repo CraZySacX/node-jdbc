@@ -2,7 +2,7 @@
 JDBC API Wrapper for node.js
 
 ## Latest Version
-- **0.6.2**
+- **0.7.0*
 
 ## Installation
 - Release: ```npm i --save jdbc```
@@ -12,16 +12,6 @@ Please visit [node-jdbc](https://www.npmjs.org/package/jdbc) for information on 
 
 ## Status
 [![Build Status](https://travis-ci.org/CraZySacX/node-jdbc.svg?branch=master)](https://travis-ci.org/CraZySacX/node-jdbc)
-
-## Supported Java Versions
-- 1.7
-- 1.8
-
-[node-java](https://github.com/joeferner/node-java) has experiemental support for 1.8, and if you are brave you can
-compile it with such.  All the tests work out of the box on a 1.8 JVM, but I've only wrapped 1.7 functions.
-
-Note that Java 9 is not currently supported.  When node-java supports Java 9, I will look into implementing any
-new Java 9 API changes (if any).
 
 ## Major API Refactor
 
