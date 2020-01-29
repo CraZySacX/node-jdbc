@@ -2,8 +2,8 @@ dist: trusty
 language: java
 sudo: false
 jdk:
-  - oraclejdk9
-  - openjdk9
+  - oraclejdk13
+  - openjdk13
 env:
   - NODE_VERSION="12"
 before_install:
