@@ -4,3 +4,4 @@
 node_modules
 mydb.*
 .idea/
+.DS_store
