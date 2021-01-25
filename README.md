@@ -2,7 +2,7 @@
 JDBC API Wrapper for node.js
 
 ## Looking for a more active maintainer
-As you've probably notice, I've not been able to actively maintain this project in a few years.  The project looks to be used by
+As you've probably noticed, I've not been able to actively maintain this project in a few years.  The project looks to be used by
 quite a few people, so I'm willing to add collaborators to this project who are interested in more active maintenance.  You can
 message me at jason.g.ozias@gmail.com.
 
