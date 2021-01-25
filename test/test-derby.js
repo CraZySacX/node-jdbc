@@ -50,7 +50,7 @@ module.exports = {
         console.log(err);
       } else {
         var create = "CREATE TABLE blah ";
-        create += "(id int, bi bigint, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP)";
+        create += "(id int, bi bigint, name varchar(10), date DATE, time TIME, timestamp TIMESTAMP, dollars NUMERIC(5,2))";
         statement.executeUpdate(create, function(err, result) {
           test.expect(1);
           test.equal(null, err);
@@ -65,7 +65,7 @@ module.exports = {
         console.log(err);
       } else {
         var insert = "INSERT INTO blah VALUES ";
-        insert += "(1, 9223372036854775807, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP)";
+        insert += "(1, 9223372036854775807, 'Jason', CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP, 12.01)";
         statement.executeUpdate(insert, function(err, result) {
           test.expect(2);
           test.equal(null, err);
@@ -105,6 +105,7 @@ module.exports = {
             test.ok(results[0].DATE);
             test.ok(results[0].TIME);
             test.ok(results[0].TIMESTAMP);
+            test.equal(results[0].DOLLARS, 12.01)
             test.done();
           });
         });
