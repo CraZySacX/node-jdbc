@@ -95,7 +95,7 @@ module.exports = {
         console.log(err);
       } else {
         statement.executeQuery("SELECT * FROM blah", function(err, resultset) {
-          test.expect(8);
+          test.expect(9);
           test.equal(null, err);
           test.ok(resultset);
           resultset.toObjArray(function(err, results) {
