@@ -233,7 +233,12 @@ conn.createStatement(function(err, statement) {
   }
 });
 ```
+- **Oracle and Closing Statements**
 
+If you are experiencing the "ORA-01000: maximum open cursors exceeded" error, you can avoid it by closing your statements with:
+```javascript
+statement.close()
+```
 
 - **Automatically Closing Idle Connections**
 
