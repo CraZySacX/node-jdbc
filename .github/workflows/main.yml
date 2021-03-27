@@ -10,7 +10,6 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-latest
           - windows-latest
         node_version:
           - 10
@@ -53,9 +52,5 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           architecture: ${{ matrix.arch }}
-      - uses: actions/setup-node@v2
-        if: matrix.os == 'macos-latest'
-        with:
-          node-version: ${{ matrix.node_version }}
       - run: yarn install
       - run: yarn test
