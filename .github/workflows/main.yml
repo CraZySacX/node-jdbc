@@ -13,13 +13,10 @@ jobs:
           java-version: 8
       - uses: actions/setup-python@v2
         with:
-          python-version: 3
+          python-version: 3.9
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: build
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: test
