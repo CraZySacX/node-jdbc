@@ -1,0 +1,22 @@
+on: [push, pull_request]
+
+name: CI
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test
