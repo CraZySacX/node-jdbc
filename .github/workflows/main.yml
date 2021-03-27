@@ -49,8 +49,13 @@ jobs:
         with:
           python-version: 3.9
       - uses: actions/setup-node@v2
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'windows-latest'
         with:
           node-version: ${{ matrix.node_version }}
           architecture: ${{ matrix.arch }}
+      - uses: actions/setup-node@v2
+        if: matrix.os == 'macos-latest'
+        with:
+          node-version: ${{ matrix.node_version }}
       - run: yarn install
       - run: yarn test
