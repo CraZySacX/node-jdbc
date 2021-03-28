@@ -7,7 +7,7 @@ quite a few people, so I'm willing to add collaborators to this project who are 
 message me at jason.g.ozias@gmail.com.
 
 ## Latest Version
-- 0.7.4
+- 0.7.5
 
 ## Installation
 - Release: ```npm i --save jdbc```

@@ -1,0 +1,60 @@
+on: [push, pull_request]
+
+name: CI
+
+jobs:
+  node-jdbc:
+    name: node-jdbc
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        node_version:
+          - 10
+          - 12
+          - 14
+          - 15
+        java_version:
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+        arch:
+          - x64
+    steps:
+      - name: 🧶 Get yarn cache directory path 🧶
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - name: 💵 Cache 💵
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.node_version }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node_version }}-yarn-
+            ${{ runner.os }}-yarn-
+      - name: ☑️ Checkout ☑️
+        uses: actions/checkout@v2
+      - name: ☕ Java ☕
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java_version }}
+      - name: 🐍 Python 🐍
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: 🔋 Node 🔋
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: 💾 Install 💾
+        run: yarn install
+      - name: 🧪 Test (Node ${{ matrix.node_version }}, Java ${{ matrix.java_version }}) 🧪
+        run: yarn test

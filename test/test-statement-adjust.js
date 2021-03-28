@@ -97,7 +97,7 @@ module.exports = {
           test.ok(resultset);
           resultset.toObjArray(function (err, results) {
             test.equal(results.length, 50);
-            test.equal(results[0].NAME, 'Jason_0');
+            test.ok(results[0].NAME.startsWith('Jason'));
             test.ok(results[0].DATE);
             test.ok(results[0].TIME);
             test.ok(results[0].TIMESTAMP);
@@ -122,7 +122,7 @@ module.exports = {
               test.ok(resultset);
               resultset.toObjArray(function (err, results) {
                 test.equal(results.length, 10);
-                test.equal(results[0].NAME, 'Jason_0');
+                test.ok(results[0].NAME.startsWith('Jason'));
                 test.done();
               });
             });
@@ -146,7 +146,7 @@ module.exports = {
               test.ok(resultset);
               resultset.toObjArray(function (err, results) {
                 test.equal(results.length, 50);
-                test.equal(results[0].NAME, 'Jason_0');
+                test.ok(results[0].NAME.startsWith('Jason'));
                 test.done();
               });
             });
