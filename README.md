@@ -1,10 +1,14 @@
 # node-jdbc
 JDBC API Wrapper for node.js
 
-## Looking for a more active maintainer
+## Looking for a more active maintainer or sponsers
 As you've probably noticed, I've not been able to actively maintain this project in a few years.  The project looks to be used by
 quite a few people, so I'm willing to add collaborators to this project who are interested in more active maintenance.  You can
 message me at jason.g.ozias@gmail.com.
+
+If I receieve enough sponsor interest I will switch back to active maintenance of this project.
+
+[![sponsor](https://img.shields.io/github/sponsors/crazysacx?logo=github-sponsors)](https://github.com/sponsors/CraZySacX)
 
 ## Latest Version
 - 0.7.6
