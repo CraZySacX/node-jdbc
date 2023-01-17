@@ -10,11 +10,11 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
         node_version:
           - 12
           - 14
           - 15
+          - 16
         java_version:
           - 8
           - 9
