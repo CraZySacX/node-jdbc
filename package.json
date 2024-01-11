@@ -1,5 +1,5 @@
 {
-  "name": "jdbc",
+  "name": "jdbc-supa",
   "version": "0.7.6",
   "description": "Node Module JDBC wrapper",
   "main": "index.js",
