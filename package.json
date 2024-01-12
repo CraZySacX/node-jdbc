@@ -1,14 +1,15 @@
 {
   "name": "jdbc-supa",
-  "version": "0.7.6",
+  "version": "2.0.0",
   "description": "Node Module JDBC wrapper",
-  "main": "index.js",
+  "exports": "./index.js",
+  "type": "module",
   "dependencies": {
     "async": "3.2.4",
+    "crypto": "^1.0.1",
     "java": "^0.14.0",
     "lodash": "4.17.21",
-    "uuid": "9.0.0",
-    "winston": "3.8.2"
+    "uuid": "9.0.0"
   },
   "devDependencies": {
     "jshint": "2.13.6",
